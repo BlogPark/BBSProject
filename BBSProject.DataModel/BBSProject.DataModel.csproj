@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,7 +41,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Model\AdvertInfo.cs" />
+    <Compile Include="Model\AdvertPosition.cs" />
+    <Compile Include="Model\GetIntegralDetail.cs" />
+    <Compile Include="Model\MemberCollection.cs" />
+    <Compile Include="Model\MemberDetail.cs" />
+    <Compile Include="Model\MemberFriends.cs" />
+    <Compile Include="Model\MemberGroup.cs" />
+    <Compile Include="Model\MemberInfo.cs" />
+    <Compile Include="Model\MemberIntegral.cs" />
+    <Compile Include="Model\MemberNews.cs" />
+    <Compile Include="Model\MemberNewsDetail.cs" />
+    <Compile Include="Model\Posts.cs" />
+    <Compile Include="Model\PostThemes.cs" />
+    <Compile Include="Model\Replys.cs" />
+    <Compile Include="Model\SysConfiguration.cs" />
+    <Compile Include="Model\SysModulars.cs" />
+    <Compile Include="Model\SysNotice.cs" />
+    <Compile Include="Model\SysSensitiveWord.cs" />
+    <Compile Include="Model\SysUserGroups.cs" />
+    <Compile Include="Model\SysUserModular.cs" />
+    <Compile Include="Model\SysUsers.cs" />
+    <Compile Include="Model\UserSafeQuestion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataModelVO\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
