@@ -12,7 +12,7 @@ namespace BBSProject.SQLCommDAL
 {
     public class DbHelperSQL
     {
-        public string _connectionString = "Data Source=localhost;Initial Catalog=ShoppingStore;User ID=sa;password=!@#123qwe;pooling=false;";
+        public string _connectionString = "Data Source=localhost;Initial Catalog=BBSProData;User ID=sa;password=!@#123qwe;pooling=false;";
 
         public string ConnectionString
         {
