@@ -224,6 +224,20 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BBSProject.BLL\BBSProject.BLL.csproj">
+      <Project>{e2af114a-9000-4fc7-810a-6f87d4309b3b}</Project>
+      <Name>BBSProject.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBSProject.Comm\BBSProject.Comm.csproj">
+      <Project>{b2431e42-490d-46ab-8636-98532fdc06f3}</Project>
+      <Name>BBSProject.Comm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBSProject.DataModel\BBSProject.DataModel.csproj">
+      <Project>{e025ab86-6b22-40af-8e96-b9f38df8fc14}</Project>
+      <Name>BBSProject.DataModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
