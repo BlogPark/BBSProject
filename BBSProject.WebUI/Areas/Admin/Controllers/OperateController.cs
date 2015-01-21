@@ -18,8 +18,12 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
         {
             ViewBag.Title = "贴吧后台管理系统";
             ViewBag.Message = "此处为后台管理系统首页位置";
-            List<SysModulars> modulars = helper.GetModularsByUser(1);
-            return Json(modulars, JsonRequestBehavior.AllowGet);
+            return View();
+        }
+        public JsonResult showmenus()
+        {
+            List<SysModulars> result = helper.GetModularsByUser(1);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
     }

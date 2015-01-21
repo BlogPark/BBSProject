@@ -1,17 +1,28 @@
 ﻿@{
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-@section Head{
-    <script src="~/lib/ligerUI/js/ligerui.min.js"></script>
-    <script src="~/lib/json2.js"></script>
+@section head{
+<link href="~/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" />
+<script src="~/lib/json2.js"></script>
+<script src="~/lib/jquery.cookie.js"></script>
+<script src="~/lib/ligerUI/js/ligerui.min.js"></script>
     <script type="text/javascript">
         var tab = null;
         var accordion = null;
         var tree = null;
         var tabItems = [];
         $(function () {
+            var mydata;
             /*加载菜单*/
-            var mydata = Json.parse(@Model);
+            $.ajax({
+                url: "/Admin/Operate/showmenus",
+                type: "get",
+                dataType: "html",
+                async: false,
+                success: function (data) {
+                    mydata = JSON.parse(data);
+                }
+            });
             //布局
             $("#layout1").ligerLayout({ leftWidth: 190, height: '100%', heightDiff: -34, space: 4, onHeightChanged: f_heightChanged });
 
@@ -68,7 +79,7 @@
                         tabid = new Date().getTime();
                         $(node.target).attr("tabid", tabid)
                     }
-                    f_addTab(tabid, node.data.title, node.data.url);
+                    f_addTab(tabid, node.data.ModularName, node.data.Action);
                 }
             });
 
@@ -108,7 +119,6 @@
             $.cookie('liger-home-tab', JSON2.stringify(tabItems));
         }
     </script>
-
     <style type="text/css">
         #mybody, html {
             height: 100%;
@@ -242,13 +252,11 @@
             margin-right: 6px;
         }
     </style>
-
 }
-
 <div id="mybody" style="padding:0px;background:#EAEEF5;">
     <div id="pageloading"></div>
     <div id="topmenu" class="l-topmenu">
-        <div class="l-topmenu-logo">XXXX商城管理首页</div>
+        <div class="l-topmenu-logo">贴吧管理首页</div>
     </div>
     <div id="layout1" style="width:99.2%; margin:0 auto; margin-top:4px; ">
         <div position="left" title="主要菜单" id="accordion1">
@@ -268,10 +276,9 @@
                 <iframe frameborder="0" name="home" id="home" src="/Admin/AdminOperate/adminlogin"></iframe>
             </div>
         </div>
-
     </div>
     <div style="height:32px; line-height:32px; text-align:center;">
-        Copyright © 2011-2014 www.XXXXshoppingstore.com
+        Copyright © 2011-2014 www.贴吧.com
     </div>
     <div style="display:none"></div>
 </div>
