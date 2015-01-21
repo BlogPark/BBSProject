@@ -30,5 +30,16 @@ namespace BBSProject.DataModel.Model
         /// </summary>
         [DataMember]
         public int IsUsed { get; set; }
+        /// <summary>
+        /// 链接地址
+        /// </summary>
+        [DataMember]
+        public string Action { get; set; }
+        /// <summary>
+        /// 父级ID
+        /// </summary>
+        [DataMember]
+        public int FatherID { get; set; }
+
     }
 }
