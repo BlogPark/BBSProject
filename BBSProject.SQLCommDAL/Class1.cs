@@ -115,9 +115,6 @@ FROM    BBSProData.dbo.bbs_MemberNews AS A
                 const string deleteColumn = "delete from [Column] where ColumnCatid=@catid";
 
                 const string deleteColumnCat = "delete from ColumnCat where id=@Id";
-
-
-
                 IDbTransaction transaction = conn.BeginTransaction();
 
                 int row = conn.Execute(deleteColumn, new { catid = 1 }, transaction, null, null);
