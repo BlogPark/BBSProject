@@ -1,0 +1,63 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section Head{
+    <script src="~/lib/ligerUI/js/ligerui.min.js"></script>
+    <script type="text/javascript">
+        $("#bodylayout").ligerLayout({ leftWidth: 190, height: '100%', heightDiff: -34, space: 4, onHeightChanged: f_heightChanged });
+        //面板
+        $("#accordion1").ligerAccordion({
+            height: height - 24, speed: null
+        });
+        //Tab
+        $("#framecenter").ligerTab({
+            height: height,
+            showSwitchInTab: true,
+            showSwitch: true,
+            onAfterAddTabItem: function (tabdata) {
+                tabItems.push(tabdata);
+                saveTabStatus();
+            },
+            onAfterRemoveTabItem: function (tabid) {
+                for (var i = 0; i < tabItems.length; i++) {
+                    var o = tabItems[i];
+                    if (o.tabid == tabid) {
+                        tabItems.splice(i, 1);
+                        saveTabStatus();
+                        break;
+                    }
+                }
+            },
+            onReload: function (tabdata) {
+                var tabid = tabdata.tabid;
+                addFrameSkinLink(tabid);
+            }
+        });
+        $(".l-link").hover(function () {
+            $(this).addClass("l-link-over");
+        }, function () {
+            $(this).removeClass("l-link-over");
+        });
+    </script>
+}
+
+<div id="bodylayout" style="width:99.2%; margin:0 auto; margin-top:4px; ">
+    <div position="left" title="主要菜单" id="accordion1">
+        <div title="功能列表" class="l-scroll">
+           @* <ul id="tree1" style="margin-top:3px;">  *@
+        </div>
+        <div title="应用场景">
+            <div style=" height:7px;"></div>
+            <a class="l-link" href="javascript:f_addTab('listpage','列表页面','demos/case/listpage.htm')">列表页面</a>
+            <a class="l-link" href="javascript:f_addTab('listpage','列表页面','demos/case/listpage2.htm')">列表页面2</a>
+            <a class="l-link" href="demos/dialog/win7.htm" target="_blank">模拟Window桌面</a>
+            <a class="l-link" href="javascript:f_addTab('week','工作日志','demos/case/week.htm')">工作日志</a>
+        </div>
+    </div>
+    <div position="center" id="framecenter">
+        <div tabid="home" title="我的主页" style="height:300px">
+            <iframe frameborder="0" name="home" id="home" src="/Admin/AdminOperate/adminlogin"></iframe>
+        </div>
+    </div>
+</div>
+</div>
