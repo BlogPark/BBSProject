@@ -35,5 +35,10 @@ namespace BBSProject.DataModel.Model
         /// </summary>
         [DataMember]
         public int IsUsed { get; set; }
+        /// <summary>
+        /// 本模块父级ID
+        /// </summary>
+        [DataMember]
+        public int ModularFatherID { get; set; }
     }
 }

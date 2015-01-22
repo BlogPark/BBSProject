@@ -42,6 +42,7 @@
     <Compile Include="BaseDataBll.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemUserBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BBSProject.Comm\BBSProject.Comm.csproj">

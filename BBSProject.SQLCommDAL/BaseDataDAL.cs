@@ -41,5 +41,6 @@ FROM    BBSProData.dbo.bbs_SysModulars sm WITH ( NOLOCK )
                 return result;
             }
         }
+       
     }
 }

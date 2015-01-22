@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="DataModelVO\MemberNewsVO.cs" />
+    <Compile Include="DataModelVO\SysUsersVO.cs" />
     <Compile Include="Model\AdvertInfo.cs" />
     <Compile Include="Model\AdvertPosition.cs" />
     <Compile Include="Model\GetIntegralDetail.cs" />

@@ -30,5 +30,20 @@ namespace BBSProject.DataModel.Model
         /// </summary>
         [DataMember]
         public int SysUserGroupID { get; set; }
+        /// <summary>
+        /// 用户真实姓名
+        /// </summary>
+        [DataMember]
+        public string SysUserTrueName { get; set; }
+        /// <summary>
+        /// 用户联系方式
+        /// </summary>
+        [DataMember]
+        public string SysUserPhone { get; set; }
+        /// <summary>
+        /// 用户状态
+        /// </summary>
+        [DataMember]
+        public int Status { get; set; }
     }
 }

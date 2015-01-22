@@ -1,11 +1,7 @@
 ﻿@{
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-@section head{
-<link href="~/lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" />
-<script src="~/lib/json2.js"></script>
-<script src="~/lib/jquery.cookie.js"></script>
-<script src="~/lib/ligerUI/js/ligerui.min.js"></script>
+@section Head{
     <script type="text/javascript">
         var tab = null;
         var accordion = null;
@@ -273,11 +269,11 @@
         </div>
         <div position="center" id="framecenter">
             <div tabid="home" title="我的主页" style="height:300px">
-                <iframe frameborder="0" name="home" id="home" src="/Admin/AdminOperate/adminlogin"></iframe>
+                <iframe frameborder="0" name="home" id="home" src="/Admin/SysUser/Login"></iframe>
             </div>
         </div>
     </div>
-    <div style="height:32px; line-height:32px; text-align:center;">
+    <div style="height:25px; line-height:25px; text-align:center;">
         Copyright © 2011-2014 www.贴吧.com
     </div>
     <div style="display:none"></div>

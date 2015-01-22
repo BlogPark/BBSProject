@@ -1,0 +1,247 @@
+﻿@{
+    ViewBag.Title = "UserList";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@using BBSProject.WebUI.Areas.Admin.Models;
+@model UserListViewModel
+@section Head{
+    <script type="text/javascript">
+        var grid;
+        $(function () {
+            grid = $("#userlistgrid").ligerGrid({
+                checkBox: false,
+                height: '99%',
+                allowUnSelectRow: false,
+                columns: [
+                    {
+                        display: 'ID', name: 'ID', Width: 100,
+                        minWidth: 60, editor: { type: 'text' }
+                    },
+                    {
+                        display: '账户名称', name: 'SysUserName', Width: 100,
+                        minWidth: 60, editor: { type: 'text' }
+                    },
+                    {
+                        display: '所在用户组', name: 'SysUserGroupName', Width: 100,
+                        minWidth: 60, editor: { type: 'text' }
+                    },
+                     {
+                         display: 'SysUserGroupID', name: 'SysUserGroupID', Width: 100,
+                         minWidth: 60, editor: { type: 'text' }
+                     },
+                     {
+                         display: '真实姓名', name: 'SysUserTrueName', Width: 100,
+                         minWidth: 60, editor: { type: 'text' }
+                     },
+                     {
+                         display: '联系方式', name: 'SysUserPhone', Width: 100,
+                         minWidth: 60, editor: { type: 'text' }
+                     },
+                     {
+                         display: 'Status', name: 'Status', Width: 100, hide: true,
+                         minWidth: 60, editor: { type: 'text' }
+                     },
+                     {
+                         display: '用户状态', name: 'StatusName', Width: 100,
+                         minWidth: 60, editor: { type: 'text' }
+                     }
+                ],
+                url: '/Admin/SysUser/GetUsers',
+                pageSize: 20,
+                enableEdit: false,
+                detailToEdit: false,
+                isScroll: true,
+                forzen: false,
+                rownumbers: true,
+                pageSizeOptions: [10, 15, 20],
+                dataAction: 'server',
+                Width: '99%',
+                onCheckRow: function (checked, rowdata, rowindex) {
+                    for (var rowid in this.records)
+                        this.unselect(rowid);
+                    this.select(rowindex);
+                },
+                onSelectRow: function (rowdata, rowindex) {
+                    if (rowdata.Status = "1")
+                    { $("#unablesysuserbtn").val("注销该账户") }
+                    if (rowdata.Status = "3")
+                    { $("#unablesysuserbtn").val("启用该账户") }
+                }
+            });
+            $("#pageloading").hide();
+            //读取用户组信息
+            var dialogdata;
+            $.ajax({
+                url: '/Admin/SysUser/GetSysusergroups',
+                datatype: 'html',
+                type: 'get',
+                async: true,
+                success: function (data) {
+                    $("#updateusegroup").ligerComboBox({
+                        data: data,
+                        valueField: 'SysUserGroupID',
+                        textField: 'SysUserGroupName',
+
+                    });
+                    $("#addusegroup").ligerComboBox({
+                        data: data,
+                        valueField: 'SysUserGroupID',
+                        textField: 'SysUserGroupName',
+
+                    });
+                }
+            });
+            //新增账户
+            $("#addsysuserbtn").click(function () {
+                $.ligerDialog.open({
+                    target: $("#addsysuserpanel"),
+                    width: 355,
+                    height: 405,
+                    title: '添加新账户'
+                });
+            });
+            //修改账户
+            $("#updatesysuserbtn").click(function () {
+                $.ligerDialog.open({
+                    target: $("#upsysuserpanel"),
+                    width: 355,
+                    height: 405,
+                    title: '添加新账户'
+                });
+            });
+            //禁用账户
+            $("#unablesysuserbtn").click(function () {
+                var row = grid.getSelectedRow();
+                if (row == null) {
+                    $.ligerDialog.warn("请先选择行");
+                    return;
+                }
+                var str = $("#unablesysuserbtn").val();
+                str = "确定要" + str;
+                $.ligerDialog.confirm(str, function (yes) {
+                    if (yes) {
+                        $.ajax({
+                            url: "/Admin/SysUser/DisableSysUser",
+                            data: { "userid": row.ID },
+                            type: "POST",
+                            datatype: "text",
+                            async: true,
+                            success: function (data) {
+                                if (data == "1") {
+                                    $.ligerDialog.success("操作成功！", "提示", function () {
+                                        grid.reload();
+                                    })
+                                }
+                                else {
+                                    $.ligerDialog.error("操作失败");
+                                }
+                            }
+                        });
+
+                    }
+                });
+            });
+        })
+    </script>
+}
+<table style="margin:0px;width:95%;height:95%;">
+    <tbody>
+        <tr style="height:20px;border:0px;">
+            <td>
+                系统用户管理
+            </td>
+        </tr>
+        <tr style="height:100px;text-align:right;border:0px;">
+            <td>
+                @{
+                    foreach (var item in Model.userModularList)
+                    {
+                        if (item.ModularName.Contains("新增"))
+                        {
+                <input type="button" id="addsysuserbtn" value="新增帐户" />
+                        }
+                        else if (item.ModularName.Contains("禁用"))
+                        {
+                <input type="button" id="unablesysuserbtn" value="注销帐户" />
+                        }
+                        else if (item.ModularName.Contains("修改"))
+                        {
+                <input type="button" id="updatesysuserbtn" value="修改帐户" />
+                        }
+                    }
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="l-loading" style="display:block" id="pageloading"></div>
+                <div class="l-clear"></div>
+                <div id="userlistgrid"></div>
+                <div style="display:none;">
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div id="addsysuserpanel" style="width:300px;height:320px;display:none">
+    @{
+        using (Html.BeginForm("", "", FormMethod.Post))
+        {
+            <table>
+                <tr>
+                    <td>系统登录名：</td>
+                    <td><input type="text" id="SysUserName" /></td>
+                </tr>
+                <tr>
+                    <td>初始密码：</td>
+                    <td><input type="password" id="SysUserPassword" /> </td>
+                </tr>
+                <tr>
+                    <td>实际姓名：</td>
+                    <td><input type="text" id="SysUserTrueName" /></td>
+                </tr>
+                <tr>
+                    <td>联系方式：</td>
+                    <td><input type="text" id="SysUserPhone" /></td>
+                </tr>
+                <tr>
+                    <td>所属用户组：</td>
+                    <td><input type="text" id="addusegroup" name="addusegroup" /></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="新增" id="adduser" /></td>
+                    <td><input type="button" value="取消" id="cancleadd" /></td>
+                </tr>
+            </table>
+        }
+    }
+</div>
+<div id="upsysuserpanel" style="width:300px;height:320px;display:none">
+    <table>
+        <tr>
+            <td>系统登录名：</td>
+            <td><input type="text" id="upSysUserName" /></td>
+        </tr>
+        <tr>
+            <td>初始密码：</td>
+            <td><input type="password" id="upSysUserPassword" /> </td>
+        </tr>
+        <tr>
+            <td>实际姓名：</td>
+            <td><input type="text" id="upSysUserTrueName" /></td>
+        </tr>
+        <tr>
+            <td>联系方式：</td>
+            <td><input type="text" id="upSysUserPhone" /></td>
+        </tr>
+        <tr>
+            <td>所属用户组：</td>
+            <td><input type="text" id="updateusegroup" name="updateusegroup" /></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="修改" id="upadduser" /></td>
+            <td><input type="button" value="取消" id="cancleup" /></td>
+        </tr>
+    </table>
+</div>
