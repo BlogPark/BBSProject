@@ -62,9 +62,10 @@
                     this.select(rowindex);
                 },
                 onSelectRow: function (rowdata, rowindex) {
-                    if (rowdata.Status = "1")
+                    if (rowdata.Status == "1")
                     { $("#unablesysuserbtn").val("注销该账户") }
-                    if (rowdata.Status = "3")
+                   
+                    if (rowdata.Status == "3")
                     { $("#unablesysuserbtn").val("启用该账户") }
                 }
             });
@@ -113,7 +114,7 @@
             $("#unablesysuserbtn").click(function () {
                 var row = grid.getSelectedRow();
                 if (row == null) {
-                    $.ligerDialog.warn("请先选择行");
+                    $.ligerDialog.warn("请先选择需要操作的账户");
                     return;
                 }
                 var str = $("#unablesysuserbtn").val();
