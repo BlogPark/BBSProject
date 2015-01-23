@@ -88,7 +88,9 @@
                         data: data,
                         valueField: 'SysUserGroupID',
                         textField: 'SysUserGroupName',
-
+                        onselected: function (value, text) {
+                            $("#hidegroupid").val(value);
+                        }
                     });
                 }
             });
@@ -187,32 +189,33 @@
 
 <div id="addsysuserpanel" style="width:300px;height:320px;display:none">
     @{
-        using (Html.BeginForm("", "", FormMethod.Post))
+        using (Html.BeginForm("InsertUser", "SysUser", FormMethod.Post))
         {
             <table>
                 <tr>
                     <td>系统登录名：</td>
-                    <td><input type="text" id="SysUserName" /></td>
+                    <td><input type="text" id="SysUserName" name="SysUserName" /></td>
                 </tr>
                 <tr>
                     <td>初始密码：</td>
-                    <td><input type="password" id="SysUserPassword" /> </td>
+                    <td><input type="password" id="SysUserPassword" name="SysUserPassword" /> </td>
                 </tr>
                 <tr>
                     <td>实际姓名：</td>
-                    <td><input type="text" id="SysUserTrueName" /></td>
+                    <td><input type="text" id="SysUserTrueName" name="SysUserTrueName" /></td>
                 </tr>
                 <tr>
                     <td>联系方式：</td>
-                    <td><input type="text" id="SysUserPhone" /></td>
+                    <td><input type="text" id="SysUserPhone" name="SysUserPhone" /></td>
                 </tr>
                 <tr>
                     <td>所属用户组：</td>
-                    <td><input type="text" id="addusegroup" name="addusegroup" /></td>
+                    <td><input type="text" id="addusegroup" />
+                        <input type="hidden" id="hidegroupid" name="SysUserGroupID"></td>
+
                 </tr>
                 <tr>
-                    <td><input type="button" value="新增" id="adduser" /></td>
-                    <td><input type="button" value="取消" id="cancleadd" /></td>
+                    <td colspan="2" align="center"><input type="submit" value="新增" id="adduser" /></td>
                 </tr>
             </table>
         }

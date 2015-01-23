@@ -94,5 +94,52 @@ WHERE   IsUsed = 1";
                 return rowcount;
             }
         }
+        /// <summary>
+        /// 插入新的系统用户
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int InsertSysUser(SysUsers model)
+        {
+            using (SqlConnection conn = new SqlConnection(sqlconnectstr))
+            {
+                conn.Open();
+                string sqltxt = @"INSERT INTO BBSProData.dbo.bbs_SysUsers
+        ( SysUserName ,
+          SysUserPassword ,
+          SysUserGroupID ,
+          SysUserTrueName ,
+          SysUserPhone ,
+          [Status]
+        )
+VALUES  ( @SysUserName,
+          @SysUserPassword,
+          @SysUserGroupID,
+          @SysUserTrueName,
+          @SysUserPhone,
+          1
+        )";
+                return conn.Execute(sqltxt, model);
+            }
+        }
+        /// <summary>
+        /// 修改系统用户信息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int UpdateSysUser(SysUsers model)
+        {
+            using (SqlConnection conn = new SqlConnection(sqlconnectstr))
+            {
+                conn.Open();
+                string sqltxt = @"UPDATE  [BBSProData].[dbo].[bbs_SysUsers]
+SET     SysUserName = @SysUserName ,
+        SysUserTrueName = @SysUserTrueName ,
+        SysUserPhone = @SysUserPhone ,
+        SysUserGroupID = @SysUserGroupID
+WHERE   ID = @ID";
+                return conn.Execute(sqltxt, model);
+            }
+        }
     }
 }

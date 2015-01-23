@@ -70,5 +70,39 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
             }
             else { return "0"; }
         }
+        /// <summary>
+        /// 插入新的系统用户
+        /// </summary>
+        /// <param name="users"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult InsertUser(SysUsers users)
+        {
+            int rowcount = helper.InsertSysUser(users);
+            if (rowcount > 0)
+            {
+                return RedirectToAction("UserList");
+            }
+            else
+            {
+                return View();
+            }
+        }
+        /// <summary>
+        /// 修改账户信息
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult UpdateUser(SysUsers user)
+        {
+            int rowount = helper.UpdateSysUser(user);
+            if (rowount > 0)
+            {
+                return Json("1");
+            }
+            else
+                return Json("0");
+        }
     }
 }

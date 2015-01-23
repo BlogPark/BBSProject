@@ -47,5 +47,23 @@ namespace BBSProject.BLL
         {
             return dal.DisableSysUser(userid);
         }
+        /// <summary>
+        /// 插入新的系统用户
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int InsertSysUser(SysUsers model)
+        {
+            return dal.InsertSysUser(model);
+        }
+        /// <summary>
+        /// 修改系统用户信息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int UpdateSysUser(SysUsers model)
+        {
+            return dal.UpdateSysUser(model);
+        }
     }
 }
