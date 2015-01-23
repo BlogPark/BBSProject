@@ -5,17 +5,81 @@
 @using BBSProject.WebUI.Areas.Admin.Models;
 @model UserGroupViewModel
 @section Head{
+    <script type="text/javascript">
+        $(function () {
+            var grid;
+            grid = $("#grouplistgrid").ligerGrid({
+                checkBox: false,
+                height: '99%',
+                allowUnSelectRow: false,
+                columns: [
+                    {
+                        display: '组编号', name: 'SysUserGroupID', Width: 100,
+                        minwidth: 60, editor: { type: 'text' }
+                    },
+                    {
+                        display: '组名称', name: 'SysUserGroupName', width: 100,
+                        minwidth: 60, editor: { type: 'text' }
+                    },
+                    {
+                        display: '状态', name: 'UsedName', Width: 100,
+                        minWidth: 60, editor: { type: 'text' }
+                    },
+                    {
+                        display: 'IsUsed', name: 'IsUsed', hide: true, width: 100,
+                        minwidth: 60, editor: { type: 'text' }
+                    }
+                ],
+                url: '/Admin/SysUser/getusergroup',
+                rownumber: true,
+                pageSize: 15,
+                enableEdit: false,
+                detailToEdit: false,
+                isScroll: true,
+                forzen: false,
+                pageSizeOption: [10, 15, 20],
+                dataAction: 'server',
+                width: '99%',
+                onSelectRow: function (rowdata, rowindex) {
+                    if (rowdata.IsUsed == "0")
+                    { $("#disablegroupbtn").val("启用该组") }
+                    if (rowdata.IsUsed == "1")
+                    { $("#disablegroupbtn").val("禁用该组") }
+                }
 
+            });
+        });
+    </script>
 }
-<table>
+<table style="width:50%;height:95%;margin:0px;">
+    <tr style="height:20px;">
+        <td>系统用户组管理</td>
+    </tr>
     <tr>
         <td>
+            @{
+                foreach (var item in Model.userModularList)
+                {
+                    if (item.ModularName.Contains("新增"))
+                    {
+            <input type="button" value="添加组" id="addgroupbtn" />
+                    }
+                    else if (item.ModularName.Contains("禁用"))
+                    {
+            <input type="button" value="禁用组" id="disablegroupbtn" />
+                    }
+                }
+            }
 
         </td>
     </tr>
     <tr>
         <td>
-
+            <div class="l-loading" style="display:block" id="pageloading"></div>
+            <div class="l-clear"></div>
+            <div id="grouplistgrid"></div>
+            <div style="display:none;">
+            </div>
         </td>
     </tr>
 </table>

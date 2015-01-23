@@ -124,5 +124,20 @@ FROM    BBSProData.dbo.bbs_MemberNews AS A
                 transaction.Commit();
             }
         }
+        /// <summary>
+        /// 获取值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public void SetIdentity<T>()
+        {
+            using (SqlConnection conn = new SqlConnection(sqlconnectstr))
+            {
+                conn.Open();
+                dynamic identity = conn.Query("SELECT @@IDENTITY AS Id").Single();
+
+                T newId = (T)identity.Id;
+            }
+
+        }
     }
 }

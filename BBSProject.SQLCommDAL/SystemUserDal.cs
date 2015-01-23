@@ -80,7 +80,35 @@ WHERE   IsUsed = 1";
             }
         }
         /// <summary>
-        /// 禁用账户
+        /// 返回所有的用户分组
+        /// </summary>
+        /// <returns></returns>
+        public List<SysUserGroupVO> GetSysUserGroup(int pageindex, int pagesize)
+        {
+            using (SqlConnection conn = new SqlConnection(sqlconnectstr))
+            {
+                conn.Open();
+                string sqltxt = @"SELECT  SysUserGroupID ,
+        SysUserGroupName ,
+        IsUsed ,
+        UsedName
+FROM    ( SELECT    ROW_NUMBER() OVER ( ORDER BY SysUserGroupID ASC ) AS ID ,
+                    SysUserGroupID ,
+                    SysUserGroupName ,
+                    IsUsed ,
+                    CASE IsUsed
+                      WHEN 1 THEN '启用'
+                      WHEN 0 THEN '停用'
+                    END AS UsedName
+          FROM      BBSProData.dbo.bbs_SysUserGroups WITH ( NOLOCK )
+        ) AS t
+WHERE   t.ID > ( @pageindex - 1 ) * @pagesize
+        AND t.ID <= @pageindex * @pagesize";
+                return conn.Query<SysUserGroupVO>(sqltxt, new { pageindex = pageindex, pagesize = pagesize }).ToList<SysUserGroupVO>();
+            }
+        }
+        /// <summary>
+        /// 禁用/启用账户
         /// </summary>
         /// <param name="userid"></param>
         /// <returns></returns>
@@ -94,6 +122,7 @@ WHERE   IsUsed = 1";
                 return rowcount;
             }
         }
+
         /// <summary>
         /// 插入新的系统用户
         /// </summary>
@@ -139,6 +168,35 @@ SET     SysUserName = @SysUserName ,
         SysUserGroupID = @SysUserGroupID
 WHERE   ID = @ID";
                 return conn.Execute(sqltxt, model);
+            }
+        }
+        /// <summary>
+        /// 禁用/启用组账户组
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public int DisableSysUsergroup(int groupid, int used)
+        {
+            using (SqlConnection conn = new SqlConnection(sqlconnectstr))
+            {
+                conn.Open();
+                int rowcount = 0;
+                if (used == 0)
+                {
+                    string sqltxt = @" UPDATE BBSProData.dbo.bbs_SysUserGroups SET IsUsed=0 WHERE SysUserGroupID=@id ";
+                    string sql = @" UPDATE BBSProData.dbo.bbs_SysUsers SET SysUserGroupID=2 WHERE SysUserGroupID=@id ";
+                    SqlTransaction trancation = conn.BeginTransaction();
+                    rowcount = conn.Execute(sqltxt, new { id = groupid }, trancation, null, null);
+
+                    rowcount += conn.Execute(sql, new { id = groupid }, trancation, null, null);
+                    trancation.Commit();
+                }
+                else
+                {
+                    string sqltxt = @"  UPDATE BBSProData.dbo.bbs_SysUserGroups SET IsUsed=1 WHERE SysUserGroupID=@id ";
+                    rowcount = conn.Execute(sqltxt, new { id = groupid });
+                }
+                return rowcount;
             }
         }
     }

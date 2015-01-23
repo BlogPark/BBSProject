@@ -118,5 +118,36 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
             else
                 return RedirectToAction("UserList");
         }
+        /// <summary>
+        /// 得到用户组信息
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult getusergroup()
+        {
+            int pagesize = int.Parse(Request.Params["pagesize"].ToString());
+            int pageindex = int.Parse(Request.Params["page"].ToString());
+            List<SysUserGroupVO> result = helper.GetSysUserGroup(pageindex, pagesize);
+            var griddata = new
+            {
+                Row = result,
+                Total = result.Count
+            };
+            return Json(griddata, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 禁用启用账户组
+        /// </summary>
+        /// <param name="groupid"></param>
+        /// <param name="used"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult disableusergroup(int groupid, int used)
+        {
+            int rowcount = helper.DisableSysUsergroup(groupid, used);
+            if (rowcount > 0)
+            { return Json("1"); }
+            else
+            { return Json("0"); }
+        }
     }
 }

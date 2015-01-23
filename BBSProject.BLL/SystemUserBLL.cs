@@ -65,5 +65,23 @@ namespace BBSProject.BLL
         {
             return dal.UpdateSysUser(model);
         }
+        /// <summary>
+        /// 返回所有的用户分组
+        /// </summary>
+        /// <returns></returns>
+        public List<SysUserGroupVO> GetSysUserGroup(int pageindex, int pagesize)
+        {
+            return dal.GetSysUserGroup(pageindex, pagesize);
+        }
+        /// <summary>
+        /// 禁用/启用用户组
+        /// </summary>
+        /// <param name="groupid">组ID</param>
+        /// <param name="used">目标状态</param>
+        /// <returns></returns>
+        public int DisableSysUsergroup(int groupid, int used)
+        {
+            return dal.DisableSysUsergroup(groupid,used);
+        }
     }
 }
