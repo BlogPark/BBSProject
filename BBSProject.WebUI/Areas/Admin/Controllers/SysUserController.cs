@@ -34,6 +34,20 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
             models.userModularList = helper.GetAuthorityByUser(1, 33);
             return View(models);
         }
+        /// <summary>
+        /// 系统用户组维护
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult userGroup()
+        {
+            UserGroupViewModel model = new UserGroupViewModel();
+            model.userModularList = helper.GetAuthorityByUser(1, 34);
+            return View(model);
+        }
+        /// <summary>
+        /// 得到用户列表
+        /// </summary>
+        /// <returns></returns>
         public JsonResult GetUsers()
         {
             int PageSize = Convert.ToInt32(Request.Params["pagesize"]);
@@ -94,15 +108,15 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult UpdateUser(SysUsers user)
+        public ActionResult UpdateUser(SysUsers user)
         {
             int rowount = helper.UpdateSysUser(user);
             if (rowount > 0)
             {
-                return Json("1");
+                return RedirectToAction("UserList");
             }
             else
-                return Json("0");
+                return RedirectToAction("UserList");
         }
     }
 }

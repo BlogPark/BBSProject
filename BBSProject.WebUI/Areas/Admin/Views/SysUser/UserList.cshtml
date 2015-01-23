@@ -71,18 +71,20 @@
             });
             $("#pageloading").hide();
             //读取用户组信息
-            var dialogdata;
+            var dialogdata; var upcombobox; var updatepancel; var addpancel;
             $.ajax({
                 url: '/Admin/SysUser/GetSysusergroups',
                 datatype: 'html',
                 type: 'get',
                 async: true,
                 success: function (data) {
-                    $("#updateusegroup").ligerComboBox({
+                    upcombobox= $("#updateusegroup").ligerComboBox({
                         data: data,
                         valueField: 'SysUserGroupID',
                         textField: 'SysUserGroupName',
-
+                        onselected: function (value, text) {
+                            $("#hideupdate").val(value);
+                        }
                     });
                     $("#addusegroup").ligerComboBox({
                         data: data,
@@ -105,12 +107,27 @@
             });
             //修改账户
             $("#updatesysuserbtn").click(function () {
-                $.ligerDialog.open({
-                    target: $("#upsysuserpanel"),
-                    width: 355,
-                    height: 405,
-                    title: '添加新账户'
-                });
+                var row = grid.getSelectedRow();
+                if (row == null) {
+                    $.ligerDialog.warn("请选择中要修改的账户");
+                    return;
+                }
+                $("#upSysUserName").val(row.SysUserName);
+                $("#hideupdateuserid").val(row.ID);
+                $("#upSysUserTrueName").val(row.SysUserTrueName);
+                $("#upSysUserPhone").val(row.SysUserPhone);
+                upcombobox.setValue(row.SysUserGroupID);
+                if (updatepancel == null) {
+                    updatepancel = $.ligerDialog.open({
+                        target: $("#upsysuserpanel"),
+                        width: 355,
+                        height: 405,
+                        title: '修改账户信息'
+                    });
+                }
+                else {
+                    updatepancel.show();
+                }
             });
             //禁用账户
             $("#unablesysuserbtn").click(function () {
@@ -144,6 +161,7 @@
                     }
                 });
             });
+            
         })
     </script>
 }
@@ -222,30 +240,33 @@
     }
 </div>
 <div id="upsysuserpanel" style="width:300px;height:320px;display:none">
-    <table>
+   @{
+       using (Html.BeginForm("UpdateUser", "SysUser", FormMethod.Post, new { id="upfrom"}))
+       {  
+              <table>
         <tr>
             <td>系统登录名：</td>
-            <td><input type="text" id="upSysUserName" /></td>
-        </tr>
-        <tr>
-            <td>初始密码：</td>
-            <td><input type="password" id="upSysUserPassword" /> </td>
+            <td><input type="text" id="upSysUserName" name="SysUserName" />
+            <input type="hidden" id="hideupdateuserid" name="ID" />
+            </td>
         </tr>
         <tr>
             <td>实际姓名：</td>
-            <td><input type="text" id="upSysUserTrueName" /></td>
+            <td><input type="text" id="upSysUserTrueName" name="SysUserTrueName" /></td>
         </tr>
         <tr>
             <td>联系方式：</td>
-            <td><input type="text" id="upSysUserPhone" /></td>
+            <td><input type="text" id="upSysUserPhone" name="SysUserPhone" /></td>
         </tr>
         <tr>
             <td>所属用户组：</td>
-            <td><input type="text" id="updateusegroup" name="updateusegroup" /></td>
+            <td><input type="text" id="updateusegroup" name="updateusegroup" />
+                <input type="hidden" id="hideupdate" name="SysUserGroupID"></td>
         </tr>
         <tr>
-            <td><input type="button" value="修改" id="upadduser" /></td>
-            <td><input type="button" value="取消" id="cancleup" /></td>
+            <td colspan="2"><input type="submit" value="修改" id="upadduserbtn" /></td>
         </tr>
     </table>
+       }
+       }
 </div>

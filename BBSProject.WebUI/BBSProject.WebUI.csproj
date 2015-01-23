@@ -129,6 +129,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\OperateController.cs" />
     <Compile Include="Areas\Admin\Controllers\SysUserController.cs" />
+    <Compile Include="Areas\Admin\Models\UserGroupViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UserListViewModel.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -199,6 +200,7 @@
     <Content Include="Areas\Admin\Views\Operate\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SysUser\Login.cshtml" />
     <Content Include="Areas\Admin\Views\SysUser\UserList.cshtml" />
+    <Content Include="Areas\Admin\Views\SysUser\userGroup.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\icon-demo.gif" />
     <Content Include="Images\icon-login-seaver.gif" />
