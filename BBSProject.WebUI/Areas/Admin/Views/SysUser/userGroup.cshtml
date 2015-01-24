@@ -26,7 +26,7 @@
                         minWidth: 60, editor: { type: 'text' }
                     },
                      {
-                         display: 'IsUsed', name: 'IsUsed', Width: 100,hide:true,
+                         display: 'IsUsed', name: 'IsUsed', Width: 100, hide: true,
                          minWidth: 60, editor: { type: 'text' }
                      }
                 ],
@@ -46,14 +46,57 @@
                     this.select(rowindex);
                 },
                 onSelectRow: function (rowdata, rowindex) {
-                    if (rowdata.IsUsed == "1")
-                    { $("#disablegroupbtn").val("禁用该组") }
+                    if (rowdata.IsUsed == "1") {
+                        $("#disablegroupbtn").val("禁用该组");
+                        $("#hideusedvalue").val("0");//将被改变为状态0
+                    }
 
-                    if (rowdata.Status == "0")
-                    { $("#disablegroupbtn").val("启用该组") }
+                    if (rowdata.IsUsed == "0") {
+                        $("#disablegroupbtn").val("启用该组");
+                        $("#hideusedvalue").val("1");//将被改变为状态1
+                    }
+                    if (rowdata.SysUserGroupID == "2" || rowdata.SysUserGroupID == "1") {
+                        $("#disablegroupbtn").attr("disabled", "true");
+                    }
+                    else { $("#disablegroupbtn").removeAttr("disabled"); }
                 }
             });
             $("#pageloading").hide();
+            //禁用启用组
+            $("#disablegroupbtn").click(function () {
+                var row = grid.getSelectedRow();
+                if (row == null) {
+                    $.ligerDialog.warn("请选择需要操作的组");
+                    return;
+                }
+                var str = $("#disablegroupbtn").val();
+                str = "确定要" + str;
+                var used = $("#hideusedvalue").val();
+                $.ligerDialog.confirm(str, function (yes) {
+                    $.ajax({
+                        url: '/Admin/SysUser/disableusergroup',
+                        async: true,
+                        data: { "groupid": row.SysUserGroupID, "used": used },
+                        type: "post",
+                        datatype: "text",
+                        success: function (data) {
+                            if (data == "1") {
+                                $.ligerDialog.success("操作成功");
+                                grid.reload();
+                            }
+                            else { $.ligerDialog.warn("操作失败"); }
+                        }
+                    });
+                });
+
+            });
+            //添加组
+            $("#addgroupbtn").click(function () {
+                grid.each(function () {
+                    alert($(this).SysUserGroupID);
+                });
+
+            });
         });
     </script>
 }
@@ -68,11 +111,12 @@
                 {
                     if (item.ModularName.Contains("新增"))
                     {
-                        <input type="button" value="添加组" id="addgroupbtn" />
+                <input type="button" value="添加组" id="addgroupbtn" />
                     }
                     else if (item.ModularName.Contains("禁用"))
                     {
-                        <input type="button" value="禁用组" id="disablegroupbtn" />
+                <input type="button" value="禁用组" id="disablegroupbtn" />
+                <input type="hidden" id="hideusedvalue" />
                     }
                 }
             }
