@@ -34,8 +34,10 @@
                 pageSize: 20,
                 enableEdit: false,
                 detailToEdit: false,
+                clickEdit: true,
                 isScroll: true,
                 forzen: false,
+                alternatingRow:true,
                 rownumbers: true,
                 pageSizeOptions: [10, 15, 20],
                 dataAction: 'server',
@@ -92,9 +94,7 @@
             });
             //添加组
             $("#addgroupbtn").click(function () {
-                grid.each(function () {
-                    alert($(this).SysUserGroupID);
-                });
+
 
             });
         });
