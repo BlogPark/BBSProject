@@ -15,43 +15,49 @@
                 columns: [
                     {
                         display: '组编号', name: 'SysUserGroupID', Width: 100,
-                        minwidth: 60, editor: { type: 'text' }
+                        minWidth: 60, editor: { type: 'text' }
                     },
                     {
-                        display: '组名称', name: 'SysUserGroupName', width: 100,
-                        minwidth: 60, editor: { type: 'text' }
+                        display: '组名称', name: 'SysUserGroupName', Width: 100,
+                        minWidth: 60, editor: { type: 'text' }
                     },
                     {
                         display: '状态', name: 'UsedName', Width: 100,
                         minWidth: 60, editor: { type: 'text' }
                     },
-                    {
-                        display: 'IsUsed', name: 'IsUsed', hide: true, width: 100,
-                        minwidth: 60, editor: { type: 'text' }
-                    }
+                     {
+                         display: 'IsUsed', name: 'IsUsed', Width: 100,hide:true,
+                         minWidth: 60, editor: { type: 'text' }
+                     }
                 ],
-                url: '/Admin/SysUser/getusergroup',
-                rownumber: true,
-                pageSize: 15,
+                url: '/Admin/SysUser/GetUserGroup',
+                pageSize: 20,
                 enableEdit: false,
                 detailToEdit: false,
                 isScroll: true,
                 forzen: false,
-                pageSizeOption: [10, 15, 20],
+                rownumbers: true,
+                pageSizeOptions: [10, 15, 20],
                 dataAction: 'server',
-                width: '99%',
+                Width: '99%',
+                onCheckRow: function (checked, rowdata, rowindex) {
+                    for (var rowid in this.records)
+                        this.unselect(rowid);
+                    this.select(rowindex);
+                },
                 onSelectRow: function (rowdata, rowindex) {
-                    if (rowdata.IsUsed == "0")
-                    { $("#disablegroupbtn").val("启用该组") }
                     if (rowdata.IsUsed == "1")
                     { $("#disablegroupbtn").val("禁用该组") }
-                }
 
+                    if (rowdata.Status == "0")
+                    { $("#disablegroupbtn").val("启用该组") }
+                }
             });
+            $("#pageloading").hide();
         });
     </script>
 }
-<table style="width:50%;height:95%;margin:0px;">
+<table style="width:70%;height:95%;margin:0px;">
     <tr style="height:20px;">
         <td>系统用户组管理</td>
     </tr>
@@ -62,11 +68,11 @@
                 {
                     if (item.ModularName.Contains("新增"))
                     {
-            <input type="button" value="添加组" id="addgroupbtn" />
+                        <input type="button" value="添加组" id="addgroupbtn" />
                     }
                     else if (item.ModularName.Contains("禁用"))
                     {
-            <input type="button" value="禁用组" id="disablegroupbtn" />
+                        <input type="button" value="禁用组" id="disablegroupbtn" />
                     }
                 }
             }

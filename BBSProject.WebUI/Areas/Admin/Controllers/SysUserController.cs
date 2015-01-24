@@ -122,14 +122,14 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
         /// 得到用户组信息
         /// </summary>
         /// <returns></returns>
-        public JsonResult getusergroup()
+        public JsonResult GetUserGroup()
         {
             int pagesize = int.Parse(Request.Params["pagesize"].ToString());
             int pageindex = int.Parse(Request.Params["page"].ToString());
             List<SysUserGroupVO> result = helper.GetSysUserGroup(pageindex, pagesize);
             var griddata = new
             {
-                Row = result,
+                Rows = result,
                 Total = result.Count
             };
             return Json(griddata, JsonRequestBehavior.AllowGet);
