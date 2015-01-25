@@ -20,8 +20,12 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult Login()
+        public ActionResult Login(string returnurl="")
         {
+            if (!string.IsNullOrWhiteSpace(returnurl))
+            {
+                ViewBag.returnurl = returnurl;
+            }
             return View();
         }
         /// <summary>
@@ -149,5 +153,52 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
             else
             { return Json("0"); }
         }
+        /// <summary>
+        /// 插入用户组
+        /// </summary>
+        /// <param name="groupname"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult Insertgroup(string groupname)
+        {
+            SysUserGroups model = new SysUserGroups();
+            model.SysUserGroupName = groupname;
+            int rowcount = helper.InsertSysUserGroup(model);
+            if (rowcount > 0)
+            {
+                return Json("1");
+            }
+            else
+            {
+                return Json("0");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CheckPassPost(LoginViewModel model)
+        {
+            SysUsers user = helper.CheckPassport(model.LUserName, model.LPassword);
+            if (user == null)//无此账户
+            {
+                ModelState.AddModelError("LUserName", "用户名或密码错误");
+                return RedirectToAction("Login");
+            }
+            else if (user != null && user.Status == 3) //状态不正确 
+            {
+            }
+            else 
+            {
+                if (!string.IsNullOrWhiteSpace(model.ReturnUrl))
+                {
+                    return RedirectToRoute(model.ReturnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Operate");
+                }
+            }
+            return View();
+        }
+
     }
 }

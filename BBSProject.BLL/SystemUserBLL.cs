@@ -83,5 +83,24 @@ namespace BBSProject.BLL
         {
             return dal.DisableSysUsergroup(groupid,used);
         }
+        /// <summary>
+        /// 添加用户组
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int InsertSysUserGroup(SysUserGroups model)
+        {
+            return dal.InsertSysUserGroup(model);
+        }
+        /// <summary>
+        /// 校验用户
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public SysUsers CheckPassport(string username, string password)
+        {
+            return dal.CheckPassport(username,password);
+        }
     }
 }

@@ -1,158 +1,252 @@
-﻿
+﻿<!DOCTYPE html>
+@model BBSProject.WebUI.Areas.Admin.Models.LoginViewModel
 <html>
 <head>
-    <title>管理员登陆</title>
-    <link href="~/CSS/skin.css" rel="stylesheet" />
-    <script language="JavaScript">
-        function correctPNG() {
-            var arVersion = navigator.appVersion.split("MSIE")
-            var version = parseFloat(arVersion[1])
-            if ((version >= 5.5) && (document.body.filters)) {
-                for (var j = 0; j < document.images.length; j++) {
-                    var img = document.images[j]
-                    var imgName = img.src.toUpperCase()
-                    if (imgName.substring(imgName.length - 3, imgName.length) == "PNG") {
-                        var imgID = (img.id) ? "id='" + img.id + "' " : ""
-                        var imgClass = (img.className) ? "class='" + img.className + "' " : ""
-                        var imgTitle = (img.title) ? "title='" + img.title + "' " : "title='" + img.alt + "' "
-                        var imgStyle = "display:inline-block;" + img.style.cssText
-                        if (img.align == "left") imgStyle = "float:left;" + imgStyle
-                        if (img.align == "right") imgStyle = "float:right;" + imgStyle
-                        if (img.parentElement.href) imgStyle = "cursor:hand;" + imgStyle
-                        var strNewHTML = "<span " + imgID + imgClass + imgTitle
-                        + " style=\"" + "width:" + img.width + "px; height:" + img.height + "px;" + imgStyle + ";"
-                        + "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader"
-                        + "(src=\'" + img.src + "\', sizingMethod='scale');\"></span>"
-                        img.outerHTML = strNewHTML
-                        j = j - 1
-                    }
-                }
-            }
+    <title>管理登录</title>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
         }
-        window.attachEvent("onload", correctPNG);
-    </script>
-</head>
-<body>
-    <table width="100%" height="166" border="0" cellpadding="0" cellspacing="0">
-        <tr>
-            <td height="42" valign="top">
-                <table width="100%" height="42" border="0" cellpadding="0" cellspacing="0" class="login_top_bg">
-                    <tr>
-                        <td width="1%" height="21">&nbsp;</td>
-                        <td height="42">&nbsp;</td>
-                        <td width="17%">&nbsp;</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td valign="top">
-                <table width="100%" height="532" border="0" cellpadding="0" cellspacing="0" class="login_bg">
-                    <tr>
-                        <td width="49%" align="right">
-                            <table width="91%" height="532" border="0" cellpadding="0" cellspacing="0" class="login_bg2">
-                                <tr>
-                                    <td height="138" valign="top">
-                                        <table width="89%" height="427" border="0" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td height="149">&nbsp;</td>
-                                            </tr>
-                                            <tr>
-                                                <td height="80" align="right" valign="top"><img src="/Images/logo.png" width="279" height="68"></td>
-                                            </tr>
-                                            <tr>
-                                                <td height="198" align="right" valign="top">
-                                                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                                                        <tr>
-                                                            <td width="35%">&nbsp;</td>
-                                                            <td height="25" colspan="2" class="left_txt"><p>1- 地区商家信息网门户站建立的首选方案...</p></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                            <td height="25" colspan="2" class="left_txt"><p>2- 一站通式的整合方式，方便用户使用...</p></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                            <td height="25" colspan="2" class="left_txt"><p>3- 强大的后台系统，管理内容易如反掌...</p></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                            <td width="30%" height="40"><img src="/Images/icon-demo.gif" width="16" height="16"><a href="http://www.865171.cn" target="_blank" class="left_txt3"> 使用说明</a> </td>
-                                                            <td width="35%"><img src="/Images/icon-login-seaver.gif" width="16" height="16"><a href="http://www.865171.cn" class="left_txt3"> 在线客服</a></td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
 
-                            </table>
-                        </td>
-                        <td width="1%">&nbsp;</td>
-                        <td width="50%" valign="bottom">
-                            <table width="100%" height="59" border="0" align="center" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td width="4%">&nbsp;</td>
-                                    <td width="96%" height="38"><span class="login_txt_bt">登陆信息网后台管理</span></td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td height="21">
-                                        <table cellspacing="0" cellpadding="0" width="100%" border="0" id="table211" height="328">
-                                            <tr>
-                                                <td height="164" colspan="2" align="middle">
-                                                    <form name="myform" action="index.html" method="post">
-                                                        <table cellspacing="0" cellpadding="0" width="100%" border="0" height="143" id="table212">
-                                                            <tr>
-                                                                <td width="13%" height="38" class="top_hui_text"><span class="login_txt">管理员：&nbsp;&nbsp; </span></td>
-                                                                <td height="38" colspan="2" class="top_hui_text"><input name="username" class="editbox4" value="" size="20">                            </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td width="13%" height="35" class="top_hui_text"><span class="login_txt"> 密 码： &nbsp;&nbsp; </span></td>
-                                                                <td height="35" colspan="2" class="top_hui_text">
-                                                                    <input class="editbox4" type="password" size="20" name="password">
-                                                                    <img src="/Images/luck.gif" width="19" height="18">
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td width="13%" height="35"><span class="login_txt">验证码：</span></td>
-                                                                <td height="35" colspan="2" class="top_hui_text">
-                                                                    <input class=wenbenkuang name=verifycode type=text value="" maxlength=4 size=10>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td height="35">&nbsp;</td>
-                                                                <td width="20%" height="35"><input name="Submit" type="submit" class="button" id="Submit" value="登 陆"> </td>
-                                                                <td width="67%" class="top_hui_text"><input name="cs" type="button" class="button" id="cs" value="取 消" onclick="showConfirmMsg1()"></td>
-                                                            </tr>
-                                                        </table>
-                                                        <br>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td width="433" height="164" align="right" valign="bottom"><img src="/Images/login-wel.gif" width="242" height="138"></td>
-                                                <td width="57" align="right" valign="bottom">&nbsp;</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td height="20">
-                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="login-buttom-bg">
-                    <tr>
-                        <td align="center"><span class="login-buttom-txt">Copyright &copy; 2009-2010 www.xxxx.cn</span></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+        body {
+            font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;
+            margin: 0;
+            background-color: #d9dee2;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#ebeef2), to(#d9dee2));
+            background-image: -webkit-linear-gradient(top, #ebeef2, #d9dee2);
+            background-image: -moz-linear-gradient(top, #ebeef2, #d9dee2);
+            background-image: -ms-linear-gradient(top, #ebeef2, #d9dee2);
+            background-image: -o-linear-gradient(top, #ebeef2, #d9dee2);
+            background-image: linear-gradient(top, #ebeef2, #d9dee2);
+        }
+
+        /*--------------------*/
+
+        #login {
+            background-color: #fff;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+            background-image: -webkit-linear-gradient(top, #fff, #eee);
+            background-image: -moz-linear-gradient(top, #fff, #eee);
+            background-image: -ms-linear-gradient(top, #fff, #eee);
+            background-image: -o-linear-gradient(top, #fff, #eee);
+            background-image: linear-gradient(top, #fff, #eee);
+            height: 240px;
+            width: 400px;
+            margin: -150px 0 0 -230px;
+            padding: 30px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 0;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, .2), 0 3px 0 #fff, 0 4px 0 rgba(0, 0, 0, .2), 0 6px 0 #fff, 0 7px 0 rgba(0, 0, 0, .2);
+            -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 1px 1px 0 rgba(0, 0, 0, .1), 3px 3px 0 rgba(255, 255, 255, 1), 4px 4px 0 rgba(0, 0, 0, .1), 6px 6px 0 rgba(255, 255, 255, 1), 7px 7px 0 rgba(0, 0, 0, .1);
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, .2), 0 3px 0 #fff, 0 4px 0 rgba(0, 0, 0, .2), 0 6px 0 #fff, 0 7px 0 rgba(0, 0, 0, .2);
+        }
+
+            #login:before {
+                content: '';
+                position: absolute;
+                z-index: -1;
+                border: 1px dashed #ccc;
+                top: 5px;
+                bottom: 5px;
+                left: 5px;
+                right: 5px;
+                -moz-box-shadow: 0 0 0 1px #fff;
+                -webkit-box-shadow: 0 0 0 1px #fff;
+                box-shadow: 0 0 0 1px #fff;
+            }
+
+        /*--------------------*/
+
+        h1 {
+            text-shadow: 0 1px 0 rgba(255, 255, 255, .7), 0px 2px 0 rgba(0, 0, 0, .5);
+            text-transform: uppercase;
+            text-align: center;
+            color: #666;
+            margin: 0 0 30px 0;
+            letter-spacing: 4px;
+            font: normal 26px/1 Verdana, Helvetica;
+            position: relative;
+        }
+
+            h1:after, h1:before {
+                background-color: #777;
+                content: "";
+                height: 1px;
+                position: absolute;
+                top: 15px;
+                width: 120px;
+            }
+
+            h1:after {
+                background-image: -webkit-gradient(linear, left top, right top, from(#777), to(#fff));
+                background-image: -webkit-linear-gradient(left, #777, #fff);
+                background-image: -moz-linear-gradient(left, #777, #fff);
+                background-image: -ms-linear-gradient(left, #777, #fff);
+                background-image: -o-linear-gradient(left, #777, #fff);
+                background-image: linear-gradient(left, #777, #fff);
+                right: 0;
+            }
+
+            h1:before {
+                background-image: -webkit-gradient(linear, right top, left top, from(#777), to(#fff));
+                background-image: -webkit-linear-gradient(right, #777, #fff);
+                background-image: -moz-linear-gradient(right, #777, #fff);
+                background-image: -ms-linear-gradient(right, #777, #fff);
+                background-image: -o-linear-gradient(right, #777, #fff);
+                background-image: linear-gradient(right, #777, #fff);
+                left: 0;
+            }
+
+        /*--------------------*/
+
+        fieldset {
+            border: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        /*--------------------*/
+
+        #inputs input {
+            background: #f1f1f1 url(/Images/login-sprite.png) no-repeat;
+            padding: 15px 15px 15px 30px;
+            margin: 0 0 10px 0;
+            width: 353px; /* 353 + 2 + 45 = 400 */
+            border: 1px solid #ccc;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            -moz-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+            -webkit-box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+            box-shadow: 0 1px 1px #ccc inset, 0 1px 0 #fff;
+        }
+
+        #username {
+            background-position: 5px -2px !important;
+        }
+
+        #password {
+            background-position: 5px -52px !important;
+        }
+
+        #inputs input:focus {
+            background-color: #fff;
+            border-color: #e8c291;
+            outline: none;
+            -moz-box-shadow: 0 0 0 1px #e8c291 inset;
+            -webkit-box-shadow: 0 0 0 1px #e8c291 inset;
+            box-shadow: 0 0 0 1px #e8c291 inset;
+        }
+
+        /*--------------------*/
+        #actions {
+            margin: 25px 0 0 0;
+        }
+
+        #submit {
+            background-color: #ffb94b;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#fddb6f), to(#ffb94b));
+            background-image: -webkit-linear-gradient(top, #fddb6f, #ffb94b);
+            background-image: -moz-linear-gradient(top, #fddb6f, #ffb94b);
+            background-image: -ms-linear-gradient(top, #fddb6f, #ffb94b);
+            background-image: -o-linear-gradient(top, #fddb6f, #ffb94b);
+            background-image: linear-gradient(top, #fddb6f, #ffb94b);
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+            -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+            -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #d69e31 #e3a037 #d5982d #e3a037;
+            float: left;
+            height: 35px;
+            padding: 0;
+            width: 120px;
+            cursor: pointer;
+            font: bold 15px Arial, Helvetica;
+            color: #8f5a0a;
+        }
+
+            #submit:hover, #submit:focus {
+                background-color: #fddb6f;
+                background-image: -webkit-gradient(linear, left top, left bottom, from(#ffb94b), to(#fddb6f));
+                background-image: -webkit-linear-gradient(top, #ffb94b, #fddb6f);
+                background-image: -moz-linear-gradient(top, #ffb94b, #fddb6f);
+                background-image: -ms-linear-gradient(top, #ffb94b, #fddb6f);
+                background-image: -o-linear-gradient(top, #ffb94b, #fddb6f);
+                background-image: linear-gradient(top, #ffb94b, #fddb6f);
+            }
+
+            #submit:active {
+                outline: none;
+                -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+                -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
+            }
+
+            #submit::-moz-focus-inner {
+                border: none;
+            }
+
+        #actions a {
+            color: #3151A2;
+            float: right;
+            line-height: 35px;
+            margin-left: 10px;
+        }
+
+        /*--------------------*/
+
+        #back {
+            display: block;
+            text-align: center;
+            position: relative;
+            top: 60px;
+            color: #999;
+        }
+    </style>
+    <script type="text/javascript">
+        $.ready(function () {
+
+            $.post(function () { alert(1)});
+        });
+    </script>
+    @{
+        if (!string.IsNullOrWhiteSpace(ViewBag.returnurl))
+        {
+            <script type="text/javascript">
+                $("#ReturnUrl").val(@ViewBag.returnurl);
+            </script>
+        }
+    }
+</head>
+
+<body>
+    @{
+        using (Html.BeginForm("CheckPassPost", "SysUser", FormMethod.Post, new { id = "login" }))
+        {
+            Html.ValidationMessage("LUserName");
+            <input type="hidden" id="ReturnUrl" />
+            <h1>Log In</h1>
+            <fieldset id="inputs">
+                <input id="username" name="Lusername" type="text" placeholder="Username" autofocus required>
+                <input id="password" name="LPassword" type="password" placeholder="Password" required>
+            </fieldset>
+            <fieldset id="actions">
+                <input type="button" id="submit" value="Log in" onclick="mysubmit()">
+            </fieldset>
+
+        }
+
+    }
 </body>
 </html>

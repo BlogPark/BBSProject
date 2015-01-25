@@ -129,6 +129,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\OperateController.cs" />
     <Compile Include="Areas\Admin\Controllers\SysUserController.cs" />
+    <Compile Include="Areas\Admin\Models\LoginViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UserGroupViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UserListViewModel.cs" />
     <Compile Include="Controllers\PostsController.cs" />
@@ -192,7 +193,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
-    <Content Include="CSS\skin.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Areas\Admin\Views\Web.config" />
@@ -202,25 +202,7 @@
     <Content Include="Areas\Admin\Views\SysUser\UserList.cshtml" />
     <Content Include="Areas\Admin\Views\SysUser\userGroup.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
-    <Content Include="Images\icon-demo.gif" />
-    <Content Include="Images\icon-login-seaver.gif" />
-    <Content Include="Images\icon-mail2.gif" />
-    <Content Include="Images\icon-phone.gif" />
-    <Content Include="Images\icon2_004.png" />
-    <Content Include="Images\icon2_089.png" />
-    <Content Include="Images\icon2_090.png" />
-    <Content Include="Images\login-buttom-bg.gif" />
-    <Content Include="Images\login-content-bg.gif" />
-    <Content Include="Images\login-top-bg.gif" />
-    <Content Include="Images\login-wel.gif" />
-    <Content Include="Images\login_bg.jpg" />
-    <Content Include="Images\Login_but.gif" />
-    <Content Include="Images\logo.gif" />
-    <Content Include="Images\logo.png" />
-    <Content Include="Images\luck.gif" />
-    <Content Include="Images\menu_bg.gif" />
-    <Content Include="Images\Submit_bg.gif" />
-    <Content Include="Images\top-right.gif" />
+    <Content Include="Images\login-sprite.png" />
     <Content Include="lib\images\loading.gif" />
     <Content Include="lib\images\top.jpg" />
     <Content Include="lib\images\topicon.gif" />
@@ -696,6 +678,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="CSS\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

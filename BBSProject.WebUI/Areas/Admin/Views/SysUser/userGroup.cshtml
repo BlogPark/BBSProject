@@ -75,27 +75,53 @@
                 str = "确定要" + str;
                 var used = $("#hideusedvalue").val();
                 $.ligerDialog.confirm(str, function (yes) {
-                    $.ajax({
-                        url: '/Admin/SysUser/disableusergroup',
-                        async: true,
-                        data: { "groupid": row.SysUserGroupID, "used": used },
-                        type: "post",
-                        datatype: "text",
-                        success: function (data) {
-                            if (data == "1") {
-                                $.ligerDialog.success("操作成功");
-                                grid.reload();
+                    if (yes) {
+                        $.ajax({
+                            url: '/Admin/SysUser/disableusergroup',
+                            async: true,
+                            data: { "groupid": row.SysUserGroupID, "used": used },
+                            type: "post",
+                            datatype: "text",
+                            success: function (data) {
+                                if (data == "1") {
+                                    $.ligerDialog.success("操作成功");
+                                    grid.reload();
+                                }
+                                else { $.ligerDialog.warn("操作失败"); }
                             }
-                            else { $.ligerDialog.warn("操作失败"); }
-                        }
-                    });
+                        });
+                    }
                 });
 
             });
             //添加组
             $("#addgroupbtn").click(function () {
 
+                $.ligerDialog.prompt("输入组名", function (yes, value) {
+                    if (yes)
+                    {
+                        var groupname = $.trim(value);
+                        if (groupname == '')
+                        {
+                            $.ligerDialog.warn("输入的用户组名不能为空");
+                            return;
+                        }
+                        $.ajax({
+                            url: '/Admin/SysUser/Insertgroup',
+                            aysnc: true,
+                            datatype: 'text',
+                            type: 'post',
+                            data: { "groupname": value },
+                            success: function (data) {
+                                if (data == "1") {
+                                    $.ligerDialog.success("操作成功");
+                                    grid.reload();
+                                } else { $.ligerDialog.warn("操作失败");}
+                            }
 
+                        });
+                    }
+                });
             });
         });
     </script>

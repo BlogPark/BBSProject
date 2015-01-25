@@ -199,5 +199,45 @@ WHERE   ID = @ID";
                 return rowcount;
             }
         }
+        /// <summary>
+        /// 添加用户组
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int InsertSysUserGroup(SysUserGroups model)
+        {
+            using (SqlConnection conn = new SqlConnection(sqlconnectstr))
+            {
+                conn.Open();
+                string sqltxt = @"  INSERT into  BBSProData.dbo.bbs_SysUserGroups
+          ( SysUserGroupName, IsUsed )
+  VALUES  ( @SysUserGroupName,
+            1
+            )";
+                return conn.Execute(sqltxt, model);
+            }
+        }
+        /// <summary>
+        /// 校验用户
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public SysUsers  CheckPassport(string username, string password)
+        {
+            using (SqlConnection conn = new SqlConnection(sqlconnectstr))
+            {
+                conn.Open();
+                string sqltxt = @"SELECT  ID ,
+        SysUserName ,
+        SysUserPassword ,
+        Status
+FROM    BBSProData.dbo.bbs_SysUsers WITH ( NOLOCK )
+WHERE   SysUserName = @name
+        AND SysUserPassword = @pasw";
+                SysUsers user = conn.Query<SysUsers>(sqltxt, new { name = username, pasw = password }).ToList<SysUsers>().SingleOrDefault();
+                return user;               
+            }
+        }
     }
 }
