@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="BaseDataBll.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="NoticeNewsBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemUserBLL.cs" />
   </ItemGroup>

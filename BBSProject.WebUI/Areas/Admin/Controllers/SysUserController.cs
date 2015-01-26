@@ -22,11 +22,12 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
 
         public ActionResult Login(string returnurl = "")
         {
+            LoginViewModel model=new LoginViewModel();
             if (!string.IsNullOrWhiteSpace(returnurl))
             {
-                ViewBag.returnurl = returnurl;
+               model.ReturnUrl  = returnurl;
             }
-            return View();
+            return View(model);
         }
         /// <summary>
         /// 登录
@@ -53,21 +54,21 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
                 Session["User"] = user;
                 HttpCookie usernamecookie = new HttpCookie("username");
                 usernamecookie.Value = user.SysUserName;
-                usernamecookie.Expires = DateTime.Now.AddMinutes(20);//20分钟过期
+                usernamecookie.Expires = DateTime.Now.AddMinutes(3);//3分钟过期
                 Response.Cookies.Add(usernamecookie);
                 HttpCookie useridcookie = new HttpCookie("userid");
-                useridcookie.Expires = DateTime.Now.AddMinutes(20);
+                useridcookie.Expires = DateTime.Now.AddMinutes(3);
                 useridcookie.Value = user.ID.ToString();
                 Response.Cookies.Add(useridcookie);
                 #endregion
-                //if (!string.IsNullOrWhiteSpace(model.ReturnUrl))
-                //{
-                //    return RedirectToRoute(model.ReturnUrl);
-                //}
-                //else
-                //{
-                return RedirectToAction("Index", "Operate");
-                //}
+                if (!string.IsNullOrWhiteSpace(model.ReturnUrl))
+                {
+                    return Redirect(model.ReturnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Operate");
+                }
             }
         }
         /// <summary>

@@ -214,36 +214,21 @@
             color: #999;
         }
     </style>
-    <script type="text/javascript">
-        $.ready(function () {
-
-            $.post(function () { alert(1) });
-        });
-    </script>
-    @{
-        if (!string.IsNullOrWhiteSpace(ViewBag.returnurl))
-        {
-            <script type="text/javascript">
-                $("#ReturnUrl").val(@ViewBag.returnurl);
-            </script>
-        }
-    }
 </head>
 
 <body>
     @{
         using (Html.BeginForm("Login", "SysUser", FormMethod.Post, new { id = "login" }))
-        {
-
-            <input type="hidden" id="ReturnUrl" />
+        {      
+            @Html.HiddenFor(model => model.ReturnUrl)
             <h1>Log In</h1>
             <fieldset id="inputs">
                 <input id="username" name="Lusername" type="text" placeholder="Username" autofocus required>
                 <input id="password" name="LPassword" type="password" placeholder="Password" required>
-                @Html.ValidationMessage("LPassword", new {style="color:red" })
+                @Html.ValidationMessage("LPassword", new { style = "color:red" })
             </fieldset>
             <fieldset id="actions">
-
+                
                 <input type="submit" id="submit" value="Log in" onclick="mysubmit()">
             </fieldset>
         }

@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Notices";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@model BBSProject.WebUI.Areas.Admin.Models.NoticeViewModel
+@section Head{
+
+}
+<table style="margin:0px;width:95%;height:95%;">
+    <tbody>
+        <tr style="height:20px;border:0px;">
+            <td>
+                系统公告管理
+            </td>
+        </tr>
+        <tr style="height:100px;text-align:right;border:0px;">
+            <td>
+                @{
+                    foreach (var item in Model.sysusermodular)
+                    {
+                        if (item.ModularName.Contains("发布"))
+                        {
+                            <input type="button" id="addsysuserbtn" value="发布公告" />
+                        }
+                        else if (item.ModularName.Contains("撤销"))
+                        {
+                            <input type="button" id="unablesysuserbtn" value="撤销公告" />
+                        }
+                        else if (item.ModularName.Contains("修改"))
+                        {
+                            <input type="button" id="updatesysuserbtn" value="修改公告" />
+                        }
+                    }
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @*<div class="l-loading" style="display:block" id="pageloading"></div>
+                <div class="l-clear"></div>
+                <div id="userlistgrid"></div>
+                <div style="display:none;">
+                </div>*@
+            </td>
+        </tr>
+    </tbody>
+</table>
