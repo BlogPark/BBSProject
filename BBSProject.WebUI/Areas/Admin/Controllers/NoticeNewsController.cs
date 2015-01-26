@@ -20,10 +20,19 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
         [UserAuthorizeAttribute]
         public ActionResult Notices()
         {
+            string ss = DateTime.Now.ToSortDatestr();
             SysUsers luser=(SysUsers)Session["User"];
             NoticeViewModel model = new NoticeViewModel();
             model.sysusermodular = userbll.GetAuthorityByUser(luser.ID, 37);
             return View(model);
         }
+
+        public JsonResult getnoticeslist()
+        {
+            string s = "ssss";
+            int si = s.ToInt(0);
+            return Json("s");
+        }
+
     }
 }
