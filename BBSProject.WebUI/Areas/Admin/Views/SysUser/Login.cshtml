@@ -217,7 +217,7 @@
     <script type="text/javascript">
         $.ready(function () {
 
-            $.post(function () { alert(1)});
+            $.post(function () { alert(1) });
         });
     </script>
     @{
@@ -232,21 +232,21 @@
 
 <body>
     @{
-        using (Html.BeginForm("CheckPassPost", "SysUser", FormMethod.Post, new { id = "login" }))
+        using (Html.BeginForm("Login", "SysUser", FormMethod.Post, new { id = "login" }))
         {
-            Html.ValidationMessage("LUserName");
+
             <input type="hidden" id="ReturnUrl" />
             <h1>Log In</h1>
             <fieldset id="inputs">
                 <input id="username" name="Lusername" type="text" placeholder="Username" autofocus required>
                 <input id="password" name="LPassword" type="password" placeholder="Password" required>
+                @Html.ValidationMessage("LPassword", new {style="color:red" })
             </fieldset>
             <fieldset id="actions">
-                <input type="button" id="submit" value="Log in" onclick="mysubmit()">
+
+                <input type="submit" id="submit" value="Log in" onclick="mysubmit()">
             </fieldset>
-
         }
-
     }
 </body>
 </html>

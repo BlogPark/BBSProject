@@ -58,7 +58,7 @@ FROM    BBSProData.dbo.bbs_SysUserModular suem WITH ( NOLOCK )
         sue.Status,
         Case sue.Status WHEN 1 THEN '启用' WHEN 2 THEN '禁用' WHEN 3 THEN '注销' ELSE '未知'END AS StatusName
 FROM    BBSProData.dbo.bbs_SysUsers sue WITH(NOLOCK)
-INNER JOIN BBSProData.dbo.bbs_SysUserGroups sug WITH(NOLOCK) ON sug.SysUserGroupID = sue.SysUserGroupID";
+LEFT JOIN BBSProData.dbo.bbs_SysUserGroups sug WITH(NOLOCK) ON sug.SysUserGroupID = sue.SysUserGroupID";
                 List<SysUsersVO> result = conn.Query<SysUsersVO>(sqltxt).ToList<SysUsersVO>();
                 return result;
             }

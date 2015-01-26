@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "MyHome";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section Head{
+    <script src="~/Scripts/jquery.cookie.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var username;
+            username = $.cookie("username");
+            if (username != null)
+            {
+                username = "您好，欢迎归来" + username;
+                $("#usern").html(username);
+            }
+            else {
+                $("#usern").html("请先登录")
+            }
+            var today = new Date();
+
+            var s = today.getFullYear() + "年" + (today.getMonth()+1 )+ "月" + today.getDate() + "日" + today.getHours() + "时" + today.getMinutes() + "分" + today.getSeconds() + "秒" + "\t星期" + today.getDay();
+            $("#udate").html(s);
+        });
+    </script>
+}
+<h2 id="usern">欢迎登陆</h2>
+<h3>贴吧管理系统</h3>
+<h3 id="udate">今天是：</h3>
+

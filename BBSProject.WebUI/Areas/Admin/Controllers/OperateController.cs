@@ -25,6 +25,10 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
             List<SysModulars> result = helper.GetModularsByUser(1);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult MyHome()
+        {
+            return View();
+        }
 
     }
 }

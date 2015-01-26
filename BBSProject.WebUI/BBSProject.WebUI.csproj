@@ -201,6 +201,7 @@
     <Content Include="Areas\Admin\Views\SysUser\Login.cshtml" />
     <Content Include="Areas\Admin\Views\SysUser\UserList.cshtml" />
     <Content Include="Areas\Admin\Views\SysUser\userGroup.cshtml" />
+    <Content Include="Areas\Admin\Views\Operate\MyHome.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\login-sprite.png" />
     <Content Include="lib\images\loading.gif" />
@@ -653,6 +654,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />

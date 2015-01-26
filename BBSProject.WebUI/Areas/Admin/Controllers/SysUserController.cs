@@ -20,13 +20,55 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult Login(string returnurl="")
+        public ActionResult Login(string returnurl = "")
         {
             if (!string.IsNullOrWhiteSpace(returnurl))
             {
                 ViewBag.returnurl = returnurl;
             }
             return View();
+        }
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Login(LoginViewModel model)
+        {
+            SysUsers user = helper.CheckPassport(model.LUserName, model.LPassword);
+            if (user == null)//无此账户
+            {
+                ModelState.AddModelError("LPassword", "用户名或密码错误");
+                return View(model);
+            }
+            else if (user != null && user.Status == 3) //状态不正确 
+            {
+                ModelState.AddModelError("LPassword", "该用户已被禁用，请联系管理员");
+                return View(model);
+            }
+            else
+            {
+                #region 将登陆信息记入Session/cookie
+                Session["User"] = user;
+                HttpCookie usernamecookie = new HttpCookie("username");
+                usernamecookie.Value = user.SysUserName;
+                usernamecookie.Expires = DateTime.Now.AddMinutes(20);//20分钟过期
+                Response.Cookies.Add(usernamecookie);
+                HttpCookie useridcookie = new HttpCookie("userid");
+                useridcookie.Expires = DateTime.Now.AddMinutes(20);
+                useridcookie.Value = user.ID.ToString();
+                Response.Cookies.Add(useridcookie);
+                #endregion
+                //if (!string.IsNullOrWhiteSpace(model.ReturnUrl))
+                //{
+                //    return RedirectToRoute(model.ReturnUrl);
+                //}
+                //else
+                //{
+                return RedirectToAction("Index", "Operate");
+                //}
+            }
         }
         /// <summary>
         /// 用户列表页面
@@ -186,7 +228,7 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
             else if (user != null && user.Status == 3) //状态不正确 
             {
             }
-            else 
+            else
             {
                 if (!string.IsNullOrWhiteSpace(model.ReturnUrl))
                 {
