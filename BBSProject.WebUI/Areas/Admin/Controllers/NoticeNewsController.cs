@@ -21,7 +21,7 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
         public ActionResult Notices()
         {
             string ss = DateTime.Now.ToSortDatestr();
-            SysUsers luser=(SysUsers)Session["User"];
+            SysUsers luser = (SysUsers)Session["User"];
             NoticeViewModel model = new NoticeViewModel();
             model.sysusermodular = userbll.GetAuthorityByUser(luser.ID, 37);
             return View(model);
@@ -29,9 +29,15 @@ namespace BBSProject.WebUI.Areas.Admin.Controllers
 
         public JsonResult getnoticeslist()
         {
-            string s = "ssss";
-            int si = s.ToInt(0);
-            return Json("s");
+            int pageindex = Request.Params["page"].ToString().ToInt(1);
+            int pagesize = Request.Params["pagesize"].ToString().ToInt(200);
+            List<SysNoticeVO> result = noticebll.GetNoticelist(pageindex, pagesize);
+            var griddata = new
+            {
+                Rows = result,
+                Total = result.Count
+            };
+            return Json(griddata,JsonRequestBehavior.AllowGet);
         }
 
     }
