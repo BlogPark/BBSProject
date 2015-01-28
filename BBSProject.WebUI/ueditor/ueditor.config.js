@@ -19,8 +19,10 @@
      * 因此，UEditor提供了针对不同页面的编辑器可单独配置的根路径，具体来说，在需要实例化编辑器的页面最顶部写上如下代码即可。当然，需要令此处的URL等于对应的配置。
      * window.UEDITOR_HOME_URL = "/xxxx/xxxx/";
      */
-    var URL = window.UEDITOR_HOME_URL || getUEBasePath();
-
+    //var URL = window.UEDITOR_HOME_URL || getUEBasePath();
+    //var tmp = location.protocol.indexOf("file") == -1 ? location.pathname : location.href;
+    //URL = window.UEDITOR_HOME_URL || tmp.substr(0, tmp.lastIndexOf("\/") + 1).replace("_examples/", "").replace("website/", "");
+    var URL = '/ueditor/';
     /**
      * 配置项主体。注意，此处所有涉及到路径的配置别遗漏URL变量。
      */
@@ -34,17 +36,103 @@
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
         , toolbars: [[
-            'fullscreen', 'source', '|', 'undo', 'redo', '|',
-            'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-            'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-            'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-            'directionalityltr', 'directionalityrtl', 'indent', '|',
-            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-            'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-            'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
-            'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
-            'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-            'print', 'preview', 'searchreplace', 'help', 'drafts'
+            //'fullscreen',//全屏
+            'source',//源代码
+            '|',//分隔符
+            'undo',//撤销
+            'redo',//重做
+            '|',
+            'bold',//加粗
+            'italic',//斜体
+            'underline',//下划线
+            'fontborder',//字符边框
+            'strikethrough',//删除线
+            'superscript',//上标
+            'subscript',//下标
+            'removeformat',//清除格式
+            'formatmatch',//格式刷
+            'autotypeset',//自动排版
+            'blockquote',//引用
+            'pasteplain',//纯文本粘贴模式
+            '|',
+            'forecolor',//字体颜色
+            'backcolor',//背景色
+            'insertorderedlist',//有序列表
+            'insertunorderedlist',//无序列表
+            'selectall',//全选
+            'cleardoc',//清空文档
+            '|',
+            'rowspacingtop',//段前距
+            'rowspacingbottom',//段后距
+            'lineheight', '|',//行间距
+            'customstyle',//自定义标题
+            'paragraph',//段落格式
+            'fontfamily',//字体
+            'fontsize',//字号
+            '|',
+            'directionalityltr',//从左向右输入
+            'directionalityrtl',//从右向左输入
+            'indent', '|',//首行缩进
+            'justifyleft',//居左对齐
+            'justifycenter',//居中对齐
+            'justifyright',//居右对齐
+            'justifyjustify',//两端对齐
+            '|',
+            'touppercase',//字母大写
+            'tolowercase',//字母小写
+            '|',
+            'link',//超链接
+            'unlink',//取消链接
+            'anchor',//锚点
+            '|',
+            'imagenone',//默认
+            'imageleft',//左浮动
+            'imageright',//右浮动
+            'imagecenter',//居中
+            '|',
+            'simpleupload',//单图上传
+            'insertimage',//多图上传
+           // 'emotion',//表情
+            //'scrawl',//涂鸦
+            //'insertvideo', //视频
+            //'music',//音乐
+            'attachment',//附件
+            //'map',//Baidu地图
+            'gmap',//Google地图
+            'insertframe',//插入Iframe
+            'insertcode',//代码语言
+            //'webapp',//百度应用
+            'pagebreak',//分页
+            'template',//模板
+            'background',//背景
+            '|',
+            'horizontal',//分隔线
+            'date',//日期
+            'time',//时间
+            //'spechars',//特殊字符
+            //'snapscreen',//截图
+            'wordimage',//图片转存
+            '|',
+            'inserttable',//插入表格
+            'deletetable',//删除表格
+            'insertparagraphbeforetable',//"表格前插入行"
+            'insertrow',//前插入行
+            'deleterow',//删除行
+            'insertcol',//前插入列
+            'deletecol',//删除列
+            'mergecells',//合并多个单元格
+            'mergeright',//右合并单元格
+            'mergedown',//下合并单元格
+            'splittocells',//完全拆分单元格
+            'splittorows',//拆分成行
+            'splittocols',//拆分成列
+            'charts',// 图表
+            '|',
+            //'print',//打印
+            //'preview',//预览
+            'searchreplace',//查询替换
+            'help',//帮助
+            'drafts'// 从草稿箱加载
         ]]
         //当鼠标放在工具栏上时显示的tooltip提示,留空支持自动多语言配置，否则以配置值为准
         //,labelMap:{
@@ -89,8 +177,8 @@
         //首行缩进距离,默认是2em
         //,indentValue:'2em'
 
-        //,initialFrameWidth:1000  //初始化编辑器宽度,默认1000
-        //,initialFrameHeight:320  //初始化编辑器高度,默认320
+        ,initialFrameWidth:730  //初始化编辑器宽度,默认1000
+        //,initialFrameHeight:460  //初始化编辑器高度,默认320
 
         //,readonly : false //编辑器初始化结束后,编辑区域是否是只读的，默认是false
 
@@ -99,7 +187,7 @@
         //启用自动保存
         //,enableAutoSave: true
         //自动保存间隔时间， 单位ms
-        //,saveInterval: 500
+        ,saveInterval: 1000
 
         //,fullscreen : false //是否开启初始化时即全屏，默认关闭
 
