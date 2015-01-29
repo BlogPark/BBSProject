@@ -60,5 +60,52 @@ WHERE   rowid > ( @pageindex - 1 ) * @pagesize
                 return conn.Query<SysNoticeVO>(sqltxt, new { pageindex = pageindex, pagesize = pagesize }).ToList<SysNoticeVO>();
             }
         }
+        /// <summary>
+        /// 插入系统公告
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int InsertNotices(SysNotice model)
+        {
+            using (SqlConnection conn = new SqlConnection(sqlconnectstr))
+            {
+                conn.Open();
+                string sqltxt = @"INSERT  INTO BBSProData.dbo.bbs_SysNotice
+        ( NoticeTitle ,
+          NoticeContent ,
+          PublishTime ,
+          ExpiredTime ,
+          IsUsed ,
+          PublishUserName ,
+          PublishState
+        )
+VALUES  ( @NoticeTitle ,
+          @NoticeContent ,
+          GETDATE() ,
+          @ExpiredTime ,
+          1 ,
+          @PublishUserName ,
+          @PublishState
+        )";
+                return conn.Execute(sqltxt, model);
+            }
+        }
+        /// <summary>
+        /// 撤销单个公告
+        /// </summary>
+        /// <param name="noticesid"></param>
+        /// <returns></returns>
+        public int deleteNotice(int noticesid)
+        {
+            using (SqlConnection conn = new SqlConnection(sqlconnectstr))
+            {
+                conn.Open();
+                string sqltxt = @"UPDATE  BBSProData.dbo.bbs_SysNotice
+SET     PublishState = 400 ,
+        IsUsed = 0
+WHERE   NoticeID = @NoticeID";
+                return conn.Execute(sqltxt, new { NoticeID = noticesid });
+            }
+        }
     }
 }

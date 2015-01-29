@@ -8,8 +8,9 @@
     <script src="~/ueditor/ueditor.config.js"></script>
     <script src="~/ueditor/ueditor.all.js"></script>
     <script src="~/ueditor/lang/zh-cn/zh-cn.js"></script>
-    <script type="text/javascript" >
-        var grid; var texteditor;
+    <script type="text/javascript">
+        var grid; var texteditor; var addpanel;
+        var addtexteditor;
         $(function () {
             grid = $("#noticeslistgrid").ligerGrid({
                 checkBox: false,
@@ -64,7 +65,7 @@
                 dataAction: 'server',
                 Width: '99%',
                 onSelectRow: function (rowdata, rowindex) {
-                    alert(rowdata.IsUsed);
+                    
                 }
             });
             $("#pageloading").hide();
@@ -72,22 +73,96 @@
                 format: 'yyyy-MM-dd hh:mm:ss',
                 showTime: true,
                 cancelable: true,
-                width:160
+                width: 160
             });
-            var texteditor = UE.getEditor('noticecontent');
+            texteditor = UE.getEditor('noticecontent');
             $("#addsysuserbtn").click(function () {
-                $.ligerDialog.open({
-                    target: $("#addnoticepanel"),
-                    width: 780,
-                    height: 520,
-                    title: '添加新账户',
-                    buttons: [
-                        { text: '确定', onclick: function (item, dialog) { alert(item.text); } },
-                        { text: '取消', onclick: function (item, dialog) { dialog.close(); } }
-                    ]
+                if (addpanel == null) {
+                    addpanel = $.ligerDialog.open({
+                        target: $("#addnoticepanel"),
+                        width: 780,
+                        height: 520,
+                        title: '添加新账户',
+                        buttons: [
+                            { text: '发布公告', onclick: function (item, dialog) { addnotice(item, dialog); } },
+                            { text: '取消', onclick: function (item, dialog) { dialog.close(); } }
+                        ]
+                    });
+                }
+                else { addpanel.show(); }
+            });
+            $("#unablesysuserbtn").click(function () {
+                var row=grid.getSelectedRow();
+                if(row==null)
+                {
+                    $.ligerDialog.warn("请选择需要撤销的公告");
+                    return;
+                }
+                $.ligerDialog.confirm("确定要撤销此条公告吗？",function(yes){
+                    if(yes)
+                    {
+                        var noticeid=row.NoticeID;
+                        $.ajax({
+                            url:"/Admin/NoticeNews/deleteNotice",
+                            datatype:"json",
+                            type:"POST",
+                            data:{"noticesid":noticeid},
+                            async:true,
+                            success:function(data){
+                                if (data == "1") {
+                                    $.ligerDialog.success("发布成功！");
+                                    grid.reload();
+
+                                }
+                                else {
+                                    $.ligerDialog.warn("发布失败！");
+                                }
+                            }
+                        });
+                    }
                 });
             });
         });
+        function addnotice(item, dialog) {
+            //获取标题
+            var publishstate = 200;
+            var title = $("#noticetitle").val();
+            if (title == '') {
+                $.ligerDialog.warn("请务必填写公告标题");
+                return;
+            }
+            var expiredtime = $("#datetxt").val();
+            var noticecentent = texteditor.getContent();
+            if ($("#isDraft").attr("checked") == "checked") {
+                publishstate = 100;
+            }
+            var model = {
+                NoticeTitle: title,
+                NoticeContent: noticecentent,
+                ExpiredTime: expiredtime,
+                PublishState: publishstate
+            };
+            $.ajax({
+                url: "/Admin/NoticeNews/addNotice",
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify(model),
+                datatype: "json",
+                type: "post",
+                async: true,
+                processData: false,
+                success: function (data) {
+                    if (data == "1") {
+                        $.ligerDialog.success("发布成功！");
+                        grid.reload();
+
+                    }
+                    else {
+                        $.ligerDialog.warn("发布失败！");
+                    }
+                }
+            });
+            dialog.hide();
+        }
     </script>
 }
 
@@ -96,7 +171,6 @@
         <tr style="height:20px;border:0px;">
             <td>
                 系统公告管理
-                
             </td>
         </tr>
         <tr style="height:100px;text-align:right;border:0px;">
@@ -119,6 +193,7 @@
                     }
                 }
             </td>
+
         </tr>
         <tr>
             <td>
@@ -135,11 +210,11 @@
 <div id="addnoticepanel" style="width:99%;height:99%;display:none">
     <table style="width:740px;height:460px;margin:0px;">
         <tr style="height: 30px;">
-            <td style="vertical-align:top;text-align:left;" colspan="2">标 题<label style="color:red">*</label>&nbsp;&nbsp;<input type="text" style="width:300px;" /></td>
+            <td style="vertical-align:top;text-align:left;" colspan="2">标 题<label style="color:red">*</label>&nbsp;&nbsp;<input type="text" style="width:300px;" id="noticetitle" /></td>
         </tr>
         <tr style="height: 30px;">
             <td style="vertical-align:middle;text-align:left;width:80px;">失效时间：</td>
-            <td><input data-type="date" data-name="datetxt" id="datetxt" style="width:300px" /></td>
+            <td><input data-type="date" data-name="datetxt" id="datetxt" style="width:300px" /><input type="checkbox" id="isDraft" style="float:left" />存为草稿</td>
         </tr>
         <tr>
             <td style="vertical-align:top;text-align:left;" colspan="2">
