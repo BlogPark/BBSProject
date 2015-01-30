@@ -128,6 +128,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdvertController.cs" />
     <Compile Include="Areas\Admin\Controllers\BasicSersController.cs" />
     <Compile Include="Areas\Admin\Controllers\NoticeNewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\OperateController.cs" />

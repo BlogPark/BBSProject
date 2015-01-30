@@ -49,6 +49,7 @@
     <Compile Include="DbHelperSQL.cs" />
     <Compile Include="NoticeNewsDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SysAdvertDAL.cs" />
     <Compile Include="SystemUserDal.cs" />
   </ItemGroup>
   <ItemGroup>

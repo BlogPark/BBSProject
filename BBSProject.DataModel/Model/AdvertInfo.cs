@@ -40,5 +40,46 @@ namespace BBSProject.DataModel.Model
         /// </summary>
         [DataMember]
         public int AdvertClickCount { get; set; }
+        /// <summary>
+        /// 状态 100 未启用  200 启用中  300 已过期
+        /// </summary>
+        [DataMember]
+        public int AdvertState { get; set; }
+        /// <summary>
+        /// 开始时间
+        /// </summary>
+        [DataMember]
+        public DateTime AdvertStarttime { get; set; }
+        /// <summary>
+        /// 结束时间
+        /// </summary>
+        [DataMember]
+        public DateTime AdvertEndtime { get; set; }
+        /// <summary>
+        /// 类型0代表文字,1代表图片,2代表flash,3代表代码)
+        /// </summary>
+        [DataMember]
+        public int AdvertType { get; set; }
+        /// <summary>
+        /// 链接地址
+        /// </summary>
+        [DataMember]
+        public string AdvertURL { get; set; }
+        /// <summary>
+        /// 广告主题
+        /// </summary>
+        [DataMember]
+        public string AdvertBody { get; set; }
+
+        /// <summary>
+        /// 扩展字段
+        /// </summary>
+        [DataMember]
+        public string extfield1 { get; set; }
+        /// <summary>
+        /// 扩展字段
+        /// </summary>
+        [DataMember]
+        public string extfield2 { get; set; }
     }
 }
