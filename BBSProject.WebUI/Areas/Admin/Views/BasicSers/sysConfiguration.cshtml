@@ -1,0 +1,300 @@
+﻿@{
+    ViewBag.Title = "系统数据字典配置";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@model BBSProject.WebUI.Areas.Admin.Models.SysConfigurationViewModel
+@section Head{
+    <script type="text/javascript">
+        var grid; var addcombox; var updcombox
+        $(function () {
+            grid = $("#configurationgrid").ligerGrid({
+                columns: [
+                { display: '配置项名称', name: 'OperateName', id: 'deptName', width: 200, align: 'left' },
+                { display: '配置项值', name: 'OperateValue', id: 'deptName2', width: 250, align: 'left' },
+                { display: 'ID', name: 'ID', id: 'id1', width: 10, type: 'int', align: 'left', hide: true },
+                { display: '备注', name: 'OperateRemark', width: 250, align: 'left' },
+                { display: '状态', name: 'UsedName', width: 50, align: 'left' },
+                { display: 'IsUsed', name: 'IsUsed', width: 10, align: 'left', hide: true },
+                { display: 'CreateUser', name: 'CreateUser', width: 25, hide: true, align: 'left' },
+                 { display: 'FatherID', name: 'FatherID', width: 25, hide: true, align: 'left' }
+                ],
+                width: '95%',
+                pageSizeOptions: [200, 400],
+                pageSize: 200,
+                height: '99%',
+                url: '/Admin/BasicSers/configurationlist',
+                dataAction: 'server',
+                rownumbers: true,
+                alternatingRow: false,
+                tree: {
+                    columnId: 'deptName',
+                    //columnName: 'name',
+                    idField: 'ID',
+                    parentIDField: 'FatherID'
+                },
+                onSelectRow: function (rowdata, rowindex) {
+                    if (rowdata.IsUsed == 0) {
+                        $("#unablesysuserbtn").val("启用该配置");
+                    }
+                    else { $("#unablesysuserbtn").val("禁用该配置"); }
+                }
+            });
+            $("#pageloading").hide();
+            var comboxdata;
+            $.ajax({
+                url: "/Admin/BasicSers/fathconfig",
+                datatype: "json",
+                type: "get",
+                async: true,
+                success: function (data) {
+                    addcombox = $("#addconfaid").ligerComboBox({
+                        data: data,
+                        valueField: 'ID',
+                        textField: 'OperateName',
+                        onselected: function (value, text) {
+                            $("#addhidep").val(value);
+                        }
+                    });
+                    updcombox = $("#updconfaid").ligerComboBox({
+                        data: data,
+                        valueField: 'ID',
+                        textField: 'OperateName',
+                        onselected: function (value, text) {
+                            $("#updhidep").val(value);
+                        }
+                    });
+                }
+            });
+            var addialog; var updialog;
+            $("#addsysuserbtn").click(function () {
+                if (addialog == null) {
+                    addcombox.setValue(-1);
+                    addialog = $.ligerDialog.open({
+                        target: $("#newconfig"),
+                        width: 410,
+                        height: 300,
+                        buttons: [
+                            { text: "新增", onclick: function (item, dialog) { adconfiguration(item, dialog); } },
+                            { text: "取消", onclick: function (item, dialog) { dialog.hide(); } },
+                        ]
+                    });
+                }
+                else {
+                    addialog.show();
+                    $("#addcontitle").val("");
+                    $("#addconvalue").val("");
+                    $("#addconremark").val("");
+                    addcombox.setValue(-1);
+
+                }
+
+            });
+            $("#updatesysuserbtn").click(function () {
+                var row = grid.getSelectedRow();
+                if (row == null) {
+                    $.ligerDialog.warn("请选择需要修改的配置项");
+                    return;
+                }
+
+                $("#updcontitle").val(row.OperateName);
+                $("#updconvalue").val(row.OperateValue);
+                $("#updconremark").val(row.OperateRemark);
+                var fid = row.FatherID;
+                if (fid == 0)
+                    updcombox.setValue(-1);
+                else
+                    updcombox.setValue(fid);
+                $("#hideid").val(row.ID);
+                if (updialog == null) {
+                    updialog = $.ligerDialog.open({
+                        target: $("#updconfig"),
+                        width: 410,
+                        height: 300,
+                        buttons: [
+                            { text: "修改", onclick: function (item, dialog) { upconfiguration(item, dialog); } },
+                            { text: "取消", onclick: function (item, dialog) { dialog.hide(); } },
+                        ]
+                    });
+                }
+                else {
+                    updialog.show();
+                }
+
+            });
+            $("#unablesysuserbtn").click(function () {
+                var row = grid.getSelectedRow();
+                if (row == null) {
+                    $.ligerDialog.warn("请选择需要操作的配置项");
+                    return;
+                }
+                $.ajax({
+                    url: "/Admin/BasicSers/disableconfig",
+                    datatype: 'json',
+                    type: 'POST',
+                    data: { "id": row.ID },
+                    async: true,
+                    success: function (data) {
+                        if (data == "1") {
+                            $.ligerDialog.success("操作成功");
+                            grid.reload();
+                        }
+                        else { $.ligerDialog.warn("操作失败"); }
+
+                    }
+                });
+            });
+        });
+        function adconfiguration(item, dialog) {
+            var operatename = $("#addcontitle").val();
+            if (operatename == "") {
+                $.ligerdialog.warn("请填入配置项名称");
+                return;
+            }
+            var operatevalue = $("#addconvalue").val();
+            var operateremark = $("#addconremark").val();
+            var fid = $("#addhidep").val();
+            if ($("#addhidep").val() == "-1") {
+                fid = 0;
+            }
+            var model = {
+                OperateName: operatename,
+                OperateValue: operatevalue,
+                OperateRemark: operateremark,
+                FatherID: fid
+            };
+            $.ajax({
+                url: "/Admin/BasicSers/addconfig",
+                contentType: 'application/json;charset=utf-8',
+                datatype: 'json',
+                type: 'POST',
+                data: JSON.stringify(model),
+                async: true,
+                success: function (data) {
+                    if (data == "1") {
+                        $.ligerDialog.success("添加成功"); dialog.hide();
+                        grid.reload();
+                    }
+                    else { $.ligerDialog.warn("添加失败"); dialog.hide() }
+
+                }
+            });
+        }
+        function upconfiguration(item, dialog) {
+            var operatename = $("#updcontitle").val();
+            if (operatename == "") {
+                $.ligerdialog.warn("请填入配置项名称");
+                return;
+            }
+            var operatevalue = $("#updconvalue").val();
+            var operateremark = $("#updconremark").val();
+            var fid = $("#updhidep").val();
+            if ($("#updhidep").val() == "-1") {
+                fid = 0;
+            }
+            var id = $("#hideid").val();
+            var model = {
+                OperateName: operatename,
+                OperateValue: operatevalue,
+                OperateRemark: operateremark,
+                FatherID: fid,
+                ID: id
+            };
+            $.ajax({
+                url: "/Admin/BasicSers/updateconfig",
+                contentType: 'application/json;charset=utf-8',
+                datatype: 'json',
+                type: 'POST',
+                data: JSON.stringify(model),
+                async: true,
+                success: function (data) {
+                    if (data == "1") {
+                        $.ligerDialog.success("修改成功"); dialog.hide();
+                        grid.reload();
+                    }
+                    else { $.ligerDialog.warn("修改失败"); dialog.hide() }
+
+                }
+            });
+        }
+    </script>
+}
+<table style="margin:0px;width:95%;height:95%;">
+    <tbody>
+        <tr style="height:10px;border:0px;">
+            <td>
+                系统数据字典配置管理
+            </td>
+        </tr>
+        <tr style="height:10px;text-align:right;border:0px;">
+            <td>
+                @{
+                    foreach (var item in Model.modularlist)
+                    {
+                        if (item.ModularName.Contains("新增"))
+                        {
+                            <input type="button" id="addsysuserbtn" value="新增节点" />
+                        }
+                        else if (item.ModularName.Contains("禁用"))
+                        {
+                            <input type="button" id="unablesysuserbtn" value="禁用节点" />
+                        }
+                        else if (item.ModularName.Contains("修改"))
+                        {
+                            <input type="button" id="updatesysuserbtn" value="修改节点" />
+                        }
+                    }
+                }
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <div class="l-loading" style="display:block" id="pageloading"></div>
+                <div class="l-clear"></div>
+                <div id="configurationgrid"></div>
+                <div style="display:none;">
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div id="newconfig" style="width:300px;height:200px;display:none">
+    <table style="border:none">
+        <tr style="height:50px">
+            <td>名  称：<input type="text" id="addcontitle" style="width:200px" /></td>
+        </tr>
+        <tr style="height:50px">
+            <td>
+                <label style="float:left">父节点：</label><div style="width:200px;float:left"><input type="text" id="addconfaid" style="width:150px" /></div>
+                <input type="hidden" id="addhidep" />
+            </td>
+        </tr>
+        <tr style="height:50px">
+            <td>节点值：<input type="text" id="addconvalue" style="width:200px" /></td>
+        </tr>
+        <tr style="height:50px">
+            <td>备  注：<input type="text" id="addconremark" style="width:200px" /></td>
+        </tr>
+    </table>
+</div>
+<div id="updconfig" style="width:300px;height:200px;display:none">
+    <table style="border:none">
+        <tr style="height:50px">
+            <td>名  称：<input type="text" id="updcontitle" style="width:200px" /><input type="hidden" id="hideid" /></td>
+        </tr>
+        <tr style="height:50px">
+            <td>
+                <label style="float:left">父节点：</label><div style="width:200px;float:left"><input type="text" id="updconfaid" style="width:150px" /></div>
+                <input type="hidden" id="updhidep" />
+            </td>
+        </tr>
+        <tr style="height:50px">
+            <td>节点值：<input type="text" id="updconvalue" style="width:200px" /></td>
+        </tr>
+        <tr style="height:50px">
+            <td>备  注：<input type="text" id="updconremark" style="width:200px" /></td>
+        </tr>
+    </table>
+</div>
+
