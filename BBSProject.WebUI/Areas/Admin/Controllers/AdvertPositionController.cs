@@ -6,9 +6,12 @@ using System.Web.Mvc;
 
 namespace BBSProject.WebUI.Areas.Admin.Controllers
 {
-    public class AdvertController : Controller
+    public class AdvertPositionController : Controller
     {
-        public ActionResult Index()
+        //
+        // GET: /Admin/AdvertPosition/
+         [UserAuthorizeAttribute]
+        public ActionResult Positions()
         {
             return View();
         }

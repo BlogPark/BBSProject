@@ -128,11 +128,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Admin\Controllers\AdvertController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdvertPositionController.cs" />
     <Compile Include="Areas\Admin\Controllers\BasicSersController.cs" />
     <Compile Include="Areas\Admin\Controllers\NoticeNewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\OperateController.cs" />
     <Compile Include="Areas\Admin\Controllers\SysUserController.cs" />
+    <Compile Include="Areas\Admin\Models\AdvertPositionsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\LoginViewModel.cs" />
     <Compile Include="Areas\Admin\Models\NoticeViewModel.cs" />
     <Compile Include="Areas\Admin\Models\SysConfigurationViewModel.cs" />
@@ -218,6 +219,7 @@
     <Content Include="Areas\Admin\Views\Operate\MyHome.cshtml" />
     <Content Include="Areas\Admin\Views\NoticeNews\Notices.cshtml" />
     <Content Include="Areas\Admin\Views\BasicSers\sysConfiguration.cshtml" />
+    <Content Include="Areas\Admin\Views\AdvertPosition\Positions.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\login-sprite.png" />
     <Content Include="lib\images\loading.gif" />
