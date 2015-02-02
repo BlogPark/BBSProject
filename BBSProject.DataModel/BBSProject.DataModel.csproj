@@ -43,6 +43,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="DataModelVO\AdvertPositionVO.cs" />
     <Compile Include="DataModelVO\MemberNewsVO.cs" />
+    <Compile Include="DataModelVO\PostsVO.cs" />
     <Compile Include="DataModelVO\SysConfigurationVO.cs" />
     <Compile Include="DataModelVO\SysNoticeVO.cs" />
     <Compile Include="DataModelVO\SysUserGroupVO.cs" />
