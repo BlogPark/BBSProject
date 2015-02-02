@@ -26,7 +26,8 @@ namespace BBSProject.SQLCommDAL
                 string sqltxt = @"SELECT  ID ,
         PositionTitle ,
         IsUsed ,
-        [Description]
+        [Description],
+        CASE IsUsed WHEN 0 THEN '停用中' WHEN 1 THEN '使用中' END as UsedName
 FROM    BBSProData.dbo.bbs_AdvertPosition WITH(NOLOCK)";
                 return conn.Query<AdvertPositionVO>(sqltxt).ToList<AdvertPositionVO>();
             }
