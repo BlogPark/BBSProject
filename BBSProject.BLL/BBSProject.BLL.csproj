@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminPostBLL.cs" />
     <Compile Include="BaseDataBll.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="NoticeNewsBLL.cs" />

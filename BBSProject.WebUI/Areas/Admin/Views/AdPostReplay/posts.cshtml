@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "posts";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Head{
+    }
+<table style="margin:0px;width:95%;height:95%;">
+    <tbody>
+        <tr style="height:20px;border:0px;">
+            <td>
+                <div>
+                    <div>主题：<input type="text" id="sectitle"/></div><div>发布时间：<input type="text" id="strpbtime"/> 至  <input type="text" id="endpbtime"/></div>
+                </div>
+            </td>
+        </tr>
+        <tr style="height:50px;text-align:right;border:0px;">
+            <td>
+                @*@{
+                    foreach (var item in Model.usermodular)
+                    {
+                        if (item.ModularName.Contains("新增"))
+                        {
+                            <input type="button" id="addnoticebtn" value="编写公告" />
+                        }
+                        else if (item.ModularName.Contains("禁用"))
+                        {
+                            <input type="button" id="delepostbtn" value="删除该帖" />
+                        }
+                        else if (item.ModularName.Contains("修改"))
+                        {
+                            <input type="button" id="updatepostbtn" value="修改内容" />
+                        }
+                        else if (item.ModularName.Contains("审核"))
+                        {
+                            <input type="button" id="chkpostbtn" value="修改描述" />
+                        }
+                    }
+}*@
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                @*<div class="l-loading" style="display:block" id="pageloading"></div>
+                <div class="l-clear"></div>
+                <div id="postlistgrid"></div>
+                <div style="display:none;">
+                </div>*@
+            </td>
+        </tr>
+    </tbody>
+</table>
+

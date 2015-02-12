@@ -33,5 +33,13 @@ namespace BBSProject.DataModel.Model
         /// 排序方向
         /// </summary>
         public string SortOrderOption { get; set; }
+        /// <summary>
+        /// 开始发布时间
+        /// </summary>
+        public DateTime StrPublishTime { get; set; }
+        /// <summary>
+        /// 结束发布时间
+        /// </summary>
+        public DateTime EndPublishTime { get; set; }
     }
 }

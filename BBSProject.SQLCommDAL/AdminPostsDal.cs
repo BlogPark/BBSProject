@@ -17,6 +17,11 @@ namespace BBSProject.SQLCommDAL
     public class AdminPostsDal
     {
         private readonly string sqlconnectstr = @"Data Source=localhost;Initial Catalog=BBSProData;User ID=sa;password=!@#123qwe;pooling=false;";//数据库连接字符串
+        /// <summary>
+        /// 查询帖子列表
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public List<PostsVO> GetPostlist(PostsVO model)
         {
             string sqltxt = @"SELECT  IDENTITY ( INT,1,1 ) AS rowid ,
@@ -47,8 +52,32 @@ FROM    #t A
                                                               * @pagesize
                                                               AND a.rowid <= @pageindex
                                                               * @pagesize
-        INNER JOIN BBSProData.dbo.bbs_MemberInfo C WITH ( NOLOCK ) ON C.MemberID = B.MemberID";
-            return new List<PostsVO>();
+                                                              AND B.PublishTime>@strpublishtime
+                                                              AND b.PublishTime<=@endpublishtime
+        LEFT JOIN BBSProData.dbo.bbs_MemberInfo C WITH ( NOLOCK ) ON C.MemberID = B.MemberID";
+            if (!string.IsNullOrWhiteSpace(model.PostTitle))
+            {
+                sqltxt += @" AND PostTitle LIKE '%" + model.PostTitle + @"%'";
+            }
+            if (!string.IsNullOrWhiteSpace(model.SortOrderName))
+            {
+                sqltxt += @" Order by " + model.SortOrderName;
+            }
+            else { sqltxt += @"Order By A.PostID  "; }
+            if (!string.IsNullOrWhiteSpace(model.SortOrderOption))
+            {
+                sqltxt += model.SortOrderOption;
+            }
+            else
+            {
+                sqltxt += "DESC ";
+            }
+
+            using (SqlConnection conn = new SqlConnection(sqlconnectstr))
+            {
+                conn.Open();
+                return conn.Query<PostsVO>(sqltxt, new { pageindex = model.PageIndex, pagesize = model.PageSize, strpublishtime = model.StrPublishTime, endpublishtime = model.EndPublishTime }).ToList<PostsVO>();
+            }
         }
     }
 }
