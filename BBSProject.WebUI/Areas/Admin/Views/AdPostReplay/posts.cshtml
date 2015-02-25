@@ -2,21 +2,140 @@
     ViewBag.Title = "posts";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
-
+@model BBSProject.WebUI.Areas.Admin.Models.PostsViewModel
 @section Head{
-    }
+    <script type="text/javascript">
+        var grid; var statime; var endtime;
+        $(function () {
+            grid = $("#postlistgrid").ligerGrid({
+                columns: [
+                    {
+                        name: 'PostID', display: '主键', align: 'center', width: '20', editor: { type: 'text' }, isSort: true
+                    },
+                    {
+                        name: 'PostTitle', display: '标题', align: 'left', width: '200', editor: { type: 'text' }, isSort: false
+                    },
+                    {
+                        name: 'PublishStatename', display: '状态', align: 'center', width: '100', editor: { type: 'text' }, isSort: false
+                    },
+                    {
+                        name: 'PublishTime', display: '发布时间', align: 'center', width: '150', editor: { type: 'date' }, type: 'date', format: 'yyyy-MM-dd hh:mm:ss', isSort: true
+                    },
+                    {
+                        name: 'PublishSouce', display: '发布来源', align: 'center', width: '70', editor: { type: 'text' }, isSort: false
+                    },
+                    {
+                        name: 'CheckNumber', display: '查看数', align: 'center', width: '50', editor: { type: 'text' }, isSort: true
+                    },
+                    {
+                        name: 'ReplyNumber', display: '回复数', align: 'center', width: '50', editor: { type: 'text' }, isSort: true
+                    },
+                    {
+                        name: 'CollectionNumber', display: '收藏数', align: 'center', width: '50', editor: { type: 'text' }, isSort: true
+                    },
+                    {
+                        name: 'SupportNumber', display: '支持数', align: 'center', width: '50', editor: { type: 'text' }, isSort: true
+                    },
+                    {
+                        name: 'OppositionNumber', display: '反对数', align: 'center', width: '50', editor: { type: 'text' }, isSort: true
+                    },
+                    {
+                        name: 'PostKeyWord', display: '关键字', align: 'left', width: '150', editor: { type: 'text' }, isSort: false
+                    },
+                    {
+                        name: 'PublishState', display: '状态值', align: 'center', width: '20', editor: { type: 'text' }, hide: true
+                    },
+                    {
+                        name: 'LastUpdateTime', display: '最后更新时间', align: 'center', width: '150', editor: { type: 'date' },type:'date',format:'yyyy-MM-dd hh:mm:ss',isSort:true
+                    },
+                    {
+                        name: 'LastUpdateUserName', display: '更新人', align: 'center', width: '70', editor: { type: 'text' }, isSort: false
+                    }
+                ],
+                url: '/Admin/AdPostReplay/getpostlist',
+                rownumbers: true,
+                pageSize: 200,
+                pageSizeOptions: [200, 300, 400],
+                enableEdit: false,
+                detailToEdit: false,
+                forzen: false,
+                isScroll: true,
+                dataAction: 'server',
+                Width: '99%',
+                where: getsearch(),
+                onSelectRow: function (rowdata, rowindex) {
+                    //if (rowdata.IsUsed == "1") {
+                    //    $("#unablesysuserbtn").val("禁用该位置");
+                    //}
+                    //else { $("#unablesysuserbtn").val("启用该位置"); }
+                }
+            });
+            $("#pageloading").hide();
+            var strt = new Date();
+            var endt = new Date();
+            alert(strt.getFullYear()+"-"+strt.getMonth()+"-"+strt.getDay()+" "+strt.getHours()+":"+strt.getMinutes()+":"+strt.getSeconds());
+            statime = $("#strpbtime").ligerDateEditor({
+                format: 'yyyy-MM-dd hh:mm:ss',
+                showTime: true,
+                cancelable: true,
+                width: 160
+            });
+            endtime = $("#endpbtime").ligerDateEditor({
+                format: 'yyyy-MM-dd hh:mm:ss',
+                showTime: true,
+                cancelable: true,
+                width: 160
+            });
+            $("#delepostbtn").click(function () {
+
+            });
+            //statime.setValue(strt);
+            //endtime.setValue(endt);
+        })
+        function getsearch() {
+            if (!grid) return null;
+            var seadata;
+            var model = {
+                StrPublishTime: $("#strpbtime").val(),
+                EndPublishTime: $("#endpbtime").val(),
+                PostTitle: $("#sectitle").val(),
+                PageIndex: 1,
+                PageSize:200
+            };
+            $.ajax({
+                url: '/Admin/AdPostReplay/getpostlist',
+                async: false,
+                datatype: 'JSON',
+                type: 'POST',
+                processData: false,
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify(model),
+                success: function (data) {
+                    seadata = data;
+                }
+            });
+            return seadata;
+        }
+        function search() {
+            grid.loadData(getsearch());
+        }
+    </script>
+}
 <table style="margin:0px;width:95%;height:95%;">
     <tbody>
         <tr style="height:20px;border:0px;">
             <td>
                 <div>
-                    <div>主题：<input type="text" id="sectitle"/></div><div>发布时间：<input type="text" id="strpbtime"/> 至  <input type="text" id="endpbtime"/></div>
+                    <div style="float:left">主题：<input type="text" id="sectitle" /></div><div style="float:left">发布时间：<input data-type="date" data-name="strpbtime" id="strpbtime" style="width:200px" /> 至  <input data-type="date" data-name="endpbtime" id="endpbtime" style="width:200px" /></div>
+                    <div style="float:left">
+                        <input type="button" id="seabtn" value="查 询" onclick="search()" />
+                    </div>
                 </div>
             </td>
         </tr>
         <tr style="height:50px;text-align:right;border:0px;">
             <td>
-                @*@{
+                @{
                     foreach (var item in Model.usermodular)
                     {
                         if (item.ModularName.Contains("新增"))
@@ -36,19 +155,23 @@
                             <input type="button" id="chkpostbtn" value="修改描述" />
                         }
                     }
-}*@
+                }
             </td>
 
         </tr>
         <tr>
             <td>
-                @*<div class="l-loading" style="display:block" id="pageloading"></div>
+                <div class="l-loading" style="display:block" id="pageloading"></div>
                 <div class="l-clear"></div>
                 <div id="postlistgrid"></div>
                 <div style="display:none;">
-                </div>*@
+                </div>
             </td>
         </tr>
     </tbody>
 </table>
+
+<div style="width:300px; height:400px; display:none">
+
+</div>
 

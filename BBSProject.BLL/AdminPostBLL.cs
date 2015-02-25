@@ -20,5 +20,24 @@ namespace BBSProject.BLL
         {
             return dal.GetPostlist(model);
         }
+
+        /// <summary>
+        /// 插入消息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public int InsertMemberNews(MemberNewsVO model)
+        {
+            return dal.InsertMemberNews(model);
+        }
+        /// <summary>
+        /// 删除帖子
+        /// </summary>
+        /// <param name="postid"></param>
+        /// <returns></returns>
+        public int DeletePosts(int postid)
+        {
+            return dal.DeletePosts(postid);
+        }
     }
 }

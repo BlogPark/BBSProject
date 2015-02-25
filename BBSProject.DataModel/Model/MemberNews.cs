@@ -36,7 +36,7 @@ namespace BBSProject.DataModel.Model
         [DataMember]
         public int NewsReaded { get; set; }
         /// <summary>
-        /// 消息状态 100 未发送  200 已发送  300 已过期  400 已删除
+        /// 消息状态 100 未发送  200 已发送  300 已过期  400 已删除 500 已阅读
         /// </summary>
         [DataMember]
         public int NewsStatus { get; set; }

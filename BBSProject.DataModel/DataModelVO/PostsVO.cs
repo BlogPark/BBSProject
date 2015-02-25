@@ -41,5 +41,9 @@ namespace BBSProject.DataModel.Model
         /// 结束发布时间
         /// </summary>
         public DateTime EndPublishTime { get; set; }
+        /// <summary>
+        /// 状态名称
+        /// </summary>
+        public string PublishStatename { get; set; }
     }
 }
