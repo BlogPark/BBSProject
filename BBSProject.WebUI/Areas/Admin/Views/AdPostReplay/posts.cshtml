@@ -46,6 +46,9 @@
                         name: 'PublishState', display: '状态值', align: 'center', width: '20', editor: { type: 'text' }, hide: true
                     },
                     {
+                        name: 'MemberID', display: '会员ID', align: 'center', width: '20', editor: { type: 'text' }, hide: true
+                    },
+                    {
                         name: 'LastUpdateTime', display: '最后更新时间', align: 'center', width: '150', editor: { type: 'date' },type:'date',format:'yyyy-MM-dd hh:mm:ss',isSort:true
                     },
                     {
@@ -87,10 +90,33 @@
                 width: 160
             });
             $("#delepostbtn").click(function () {
-
+                var row = grid.getSelectedRow();
+                if (row == null)
+                {
+                    $.ligerDialog.warn("请先选择需要删除的帖子");
+                    return;
+                }
+                $.ligerDialog.confirm("删除操作无法回滚，确定要删除此会员的帖子吗？", function (yes) {
+                    if (yes)
+                    {
+                        $.ajax({
+                            url: '/Admin/AdPostReplay/delepost',
+                            datatype: 'json',
+                            type: 'POST',
+                            data: { 'postid': row.PostID, 'memberid': row.MemberID },
+                            success: function (data) {
+                                if (data == "1") {
+                                    search();
+                                    $.ligerDialog.success("删除成功，并且已发会员站内消息");
+                                }
+                                else {
+                                    $.ligerDialog.error("删除操作失败");
+                                }
+                            }
+                        });
+                    }
+                });
             });
-            //statime.setValue(strt);
-            //endtime.setValue(endt);
         })
         function getsearch() {
             if (!grid) return null;
