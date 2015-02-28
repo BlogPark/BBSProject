@@ -74,9 +74,10 @@
                 }
             });
             $("#pageloading").hide();
-            var strt = new Date();
+            var strt = new Date(new Date() - 120 * 60 * 60 * 1000);
             var endt = new Date();
-            alert(strt.getFullYear()+"-"+strt.getMonth()+"-"+strt.getDay()+" "+strt.getHours()+":"+strt.getMinutes()+":"+strt.getSeconds());
+            var endtstr = endt.getFullYear() + "-" + (endt.getMonth() + 1) + "-" + endt.getDate() + " " + endt.getHours() + ":" + endt.getMinutes() + ":" + endt.getSeconds();
+            var strtstr = strt.getFullYear() + "-" + (strt.getMonth() + 1) + "-" + strt.getDate() + " " + strt.getHours() + ":" + strt.getMinutes() + ":" + strt.getSeconds();
             statime = $("#strpbtime").ligerDateEditor({
                 format: 'yyyy-MM-dd hh:mm:ss',
                 showTime: true,
@@ -89,6 +90,8 @@
                 cancelable: true,
                 width: 160
             });
+            statime.setValue(strtstr);
+            endtime.setValue(endtstr);
             $("#delepostbtn").click(function () {
                 var row = grid.getSelectedRow();
                 if (row == null)
