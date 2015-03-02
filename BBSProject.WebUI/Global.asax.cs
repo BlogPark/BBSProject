@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using BBSProject.Comm;
 
 namespace BBSProject.WebUI
 {
@@ -22,6 +23,13 @@ namespace BBSProject.WebUI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            RegisterView();
+        }
+
+        protected void RegisterView()
+        {
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new MyViewEngine());
         }
     }
 }
